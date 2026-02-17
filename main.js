@@ -8,9 +8,9 @@
     const headlineContainer = document.getElementById('headline-container');
 
     const HEADLINES = [
-        "<span>Make it</span><span>making art</span>",
-        "<span>Learning feels</span><span>this good.</span>",
-        "<span>Let's build</span><span>your idea.</span>"
+        "<span>Leave with</span><span>clarity.</span>",
+        "<span>Learning here doesn’t</span><span>start with effort.</span>",
+        "<span>It starts with</span><span>curiosity.</span>"
     ];
 
     const maskCanvas = document.createElement('canvas');
