@@ -1,11 +1,3 @@
-/**
- * Archit — Organic Blob Spotlight (Safari Optimized)
- *
- * Uses a dual-canvas masking technique for maximum cross-browser compatibility.
- * An offscreen canvas draws the animated blob, which is then used as an
- * alpha mask for the main scene content.
- */
-
 (function () {
     'use strict';
 
@@ -22,14 +14,12 @@
         "Let's work on your idea."
     ];
 
-    // ─── Offscreen Mask Canvas (Robust Safari Support) ───
     const maskCanvas = document.createElement('canvas');
     const maskCtx = maskCanvas.getContext('2d');
 
     const TOTAL = scenes.length;
     let currentIdx = 0;
 
-    // ─── Interaction & Auto-Transition ───
     const AUTO_TRANSITION_DELAY = 5000;
     let autoTimer = null;
 
@@ -38,23 +28,19 @@
     let expandStart = 0;
     let spotlightFade = 0;
 
-    // Mouse state
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
     let tx = mx, ty = my;
 
-    // Config
-    const BASE_RADIUS = 100; // Size
-    const FEATHER = 22;      // Blur amount
-    const EASE = 1.0;        // Instant follow
-    const POINTS = 15;       // Blob control points
-    const EXPAND_MS = 1200;   // Expansion duration
+    const BASE_RADIUS = 100;
+    const FEATHER = 22;
+    const EASE = 1.0;
+    const POINTS = 15;
+    const EXPAND_MS = 1200;
 
-    // ─── Auto Timer Logic ───
     function startAutoTimer() {
         stopAutoTimer();
         autoTimer = setTimeout(() => {
-            // Trigger transition from current cursor position
             triggerTransition();
         }, AUTO_TRANSITION_DELAY);
     }
@@ -66,37 +52,32 @@
         }
     }
 
-    // ─── Transition Logic ───
     function triggerTransition() {
         if (debounce || isExpanding) return;
         debounce = true;
         isExpanding = true;
         expandStart = performance.now();
         if (hint) hint.style.opacity = '0';
-        stopAutoTimer(); // Stop timer during transition
+        stopAutoTimer();
     }
 
-    // ─── Canvas sizing ───
     let dpr = 1;
     function resize() {
         dpr = window.devicePixelRatio || 1;
         const W = window.innerWidth;
         const H = window.innerHeight;
 
-        // Main Canvas
         canvas.width = W * dpr;
         canvas.height = H * dpr;
         canvas.style.width = W + 'px';
         canvas.style.height = H + 'px';
 
-        // Mask Canvas
         maskCanvas.width = W * dpr;
         maskCanvas.height = H * dpr;
     }
     window.addEventListener('resize', resize);
     resize();
 
-    // ─── Preload/Warm up media ───
     scenes.forEach(s => {
         const img = s.querySelector('img');
         if (img && img.decode) img.decode().catch(() => { });
@@ -188,15 +169,12 @@
         });
     }
 
-    // ─── Text Animation ───
     function updateText(idx) {
-        // 1. Exit current text (Instant removal)
         const oldText = headlineContainer.querySelector('.headline:not(.slide-exit)');
         if (oldText) {
             oldText.remove();
         }
 
-        // 2. Enter new text
         const newH1 = document.createElement('h1');
         newH1.className = 'headline slide-enter';
         newH1.innerHTML = HEADLINES[idx % HEADLINES.length];
@@ -206,7 +184,6 @@
     document.addEventListener('mousemove', e => {
         tx = e.clientX;
         ty = e.clientY;
-        // Reset timer on interaction
         startAutoTimer();
     });
 
@@ -222,7 +199,6 @@
         const W = window.innerWidth;
         const H = window.innerHeight;
 
-        // 1. Prepare Mask (Offscreen)
         maskCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
         maskCtx.clearRect(0, 0, W, H);
 
@@ -240,7 +216,7 @@
                 updateText(currentIdx);
                 debounce = false;
                 spotlightFade = 0.003;
-                startAutoTimer(); // Restart timer after transition
+                startAutoTimer();
             }
         } else if (spotlightFade < 1) {
             spotlightFade += 0.03;
@@ -255,7 +231,6 @@
         maskCtx.fill();
         maskCtx.restore();
 
-        // 2. Render Scene content and clip with Mask
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, W, H);
 
@@ -263,12 +238,10 @@
         const media = getMedia(nextIdx);
 
         if (media) {
-            // Draw content first
             drawCover(ctx, media, W, H);
 
-            // Clip destination using our masked blob
             ctx.globalCompositeOperation = 'destination-in';
-            ctx.setTransform(1, 0, 0, 1, 0, 0); // Drew content with DPR, but mask is already DPR size
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.drawImage(maskCanvas, 0, 0);
             ctx.globalCompositeOperation = 'source-over';
         }
@@ -277,6 +250,6 @@
     }
 
     arrangeScenes();
-    startAutoTimer(); // Init timer
+    startAutoTimer();
     requestAnimationFrame(animate);
 })();

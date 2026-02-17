@@ -81,17 +81,13 @@ body {
     display: grid;
     align-items: end;
     min-height: 120px;
-    /* Reserve space */
     position: relative;
     overflow: hidden;
-    /* Hide entering text from above */
     max-width: 90%;
-    /* Prevent touching edge */
 }
 
 .headline {
     grid-area: 1 / 1;
-    /* Stack them */
     font-size: clamp(2rem, 4.8vw, 8rem);
     font-weight: 800;
     line-height: 1.0;
@@ -100,9 +96,7 @@ body {
     letter-spacing: -.03em;
     text-shadow: 0 4px 30px rgba(0, 0, 0, .5);
     margin: 0;
-    /* Container handles margin */
     padding-bottom: 2rem;
-    /* Spacing for hint */
 }
 
 .headline.slide-enter {
@@ -112,7 +106,6 @@ body {
 .headline.slide-exit {
     animation: slideExit 600ms ease-out forwards;
     position: absolute;
-    /* Take out of flow to prevent jitter */
     bottom: 0;
     left: 0;
     width: 100%;
