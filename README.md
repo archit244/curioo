@@ -1,6 +1,6 @@
-#  Premium Interaction
+# Curio | Premium Interaction
 
-A high-fidelity web experience featuring an organic blob spotlight effect, video backgrounds, and animated typography. This project demonstrates advanced canvas manipulation and performance-optimized media handling.
+A high-fidelity web experience featuring an organic blob spotlight effect, video backgrounds, and animated typography. "Curio" is a premium platform design focused on minimal aesthetics.
 
 ## Features
 

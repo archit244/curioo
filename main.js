@@ -5,13 +5,12 @@
     const scenes = Array.from(document.querySelectorAll('.scene'));
     const canvas = document.getElementById('peek-canvas');
     const ctx = canvas.getContext('2d');
-    const hint = document.getElementById('hint');
     const headlineContainer = document.getElementById('headline-container');
 
     const HEADLINES = [
-        "How do markets work ?",
-        "Learning never meant to feel this good.",
-        "Let's work on your idea."
+        "<span>Make it</span><span>making art</span>",
+        "<span>Learning feels</span><span>this good.</span>",
+        "<span>Let's build</span><span>your idea.</span>"
     ];
 
     const maskCanvas = document.createElement('canvas');
@@ -57,7 +56,6 @@
         debounce = true;
         isExpanding = true;
         expandStart = performance.now();
-        if (hint) hint.style.opacity = '0';
         stopAutoTimer();
     }
 
@@ -172,7 +170,8 @@
     function updateText(idx) {
         const oldText = headlineContainer.querySelector('.headline:not(.slide-exit)');
         if (oldText) {
-            oldText.remove();
+            oldText.classList.add('slide-exit');
+            setTimeout(() => oldText.remove(), 1000);
         }
 
         const newH1 = document.createElement('h1');
