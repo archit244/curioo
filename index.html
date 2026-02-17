@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archit | Premium Interaction</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main class="hero" id="hero">
+        <!-- Scene 0: Image 1 -->
+        <div class="scene" data-index="0">
+            <img src="unwatermarked_Gemini_Generated_Image_y3h8v4y3h8v4y3h8.png" alt="Scene 1" />
+        </div>
+        <!-- Scene 1: Image 2 -->
+        <div class="scene" data-index="1">
+            <img src="pexels-tima-miroshnichenko-57106 (3).jpg" alt="Scene 2" />
+        </div>
+
+        <!-- Scene 2: Video -->
+        <div class="scene" data-index="2">
+            <video src="minecraft-hero.mp4" muted loop playsinline preload="auto"></video>
+        </div>
+
+        <!-- Canvas for the organic blob peek -->
+        <canvas id="peek-canvas"></canvas>
+
+        <!-- Text Overlay -->
+        <div class="overlay">
+            <div class="content">
+                <div id="headline-container">
+                    <h1 class="headline">How do markets work ?</h1>
+                </div>
+                <div class="hint" id="hint">Click anywhere to explore</div>
+            </div>
+        </div>
+    </main>
+    <script src="main.js"></script>
+</body>
+
+</html>
