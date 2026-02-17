@@ -98,7 +98,6 @@ body {
     inset: 0;
     opacity: 0;
     z-index: 0;
-    transition: opacity .8s ease;
     will-change: opacity, transform;
     transform: translate3d(0, 0, 0);
 }
