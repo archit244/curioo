@@ -170,11 +170,11 @@ body {
 }
 
 .headline.slide-enter {
-    animation: slideEnter 1000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideEnter 3500ms cubic-bezier(0.16, 1, 0.2, 1.0) forwards;
 }
 
 .headline.slide-exit {
-    animation: slideExit 600ms ease-in forwards;
+    animation: slideExit 20ms ease-in forwards;
     position: absolute;
     top: 0;
     left: 0;
