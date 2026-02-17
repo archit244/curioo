@@ -9,7 +9,7 @@
 
     const HEADLINES = [
         "<span>Leave with</span><span>clarity.</span>",
-        "<span>Learning here doesn’t</span><span>start with effort.</span>",
+        "<span>Scroll into</span><span>ideas.</span>",
         "<span>It starts with</span><span>curiosity.</span>"
     ];
 
