@@ -1,4 +1,4 @@
-# Archit | Premium Interaction
+#  Premium Interaction
 
 A high-fidelity web experience featuring an organic blob spotlight effect, video backgrounds, and animated typography. This project demonstrates advanced canvas manipulation and performance-optimized media handling.
 
