@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curio | Premium Interaction</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="tech-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 
 <body>
@@ -24,7 +26,7 @@
             <img src="ChatGPT Image Feb 18, 2026 at 12_06_57 AM.png" alt="Scene 1" />
         </div>
         <div class="scene" data-index="1">
-            <img src="ChatGPT Image Feb 18, 2026 at 12_09_35 AM.png" alt="Scene 2" />
+            <img src="Gemini_Generated_Image_d3mj5ud3mj5ud3mj.png" alt="Scene 2" />
         </div>
 
         <div class="scene" data-index="2">
@@ -36,7 +38,8 @@
         <div class="overlay">
             <div class="content">
                 <div id="headline-container">
-                    <h1 class="headline"><span>Learning was never meant</span><span>to feel this good.</span></h1>
+                    <h1 class="headline small-font"><span>Learning was never meant</span><span>to feel this good.</span>
+                    </h1>
                 </div>
             </div>
             <div class="scroll-hint">
@@ -47,7 +50,106 @@
             </div>
         </div>
     </main>
+
+    <section class="tech-section" id="tech-section">
+        <div class="tech-container">
+            <!-- Corner Text — Cycles every 6 seconds -->
+            <div class="corner-text-system" id="corner-text-system">
+                <div class="corner-text corner-top-right" id="ct-slot-1"></div>
+                <div class="corner-text corner-mid-right" id="ct-slot-2"></div>
+                <div class="corner-text corner-bottom-left" id="ct-slot-3"></div>
+            </div>
+        </div>
+    </section>
+    <section class="tubes-section" id="tubes-section">
+        <canvas id="tubes-canvas"></canvas>
+
+        <!-- Hero overlay text -->
+        <div class="tubes-overlay">
+            <h2 class="tubes-title">Tubes</h2>
+            <h3 class="tubes-subtitle">Cursor</h3>
+            <p class="tubes-hint" id="tubes-status">Click background for random colors</p>
+        </div>
+    </section>
+
+    <!-- Testimonials — Wall of Love -->
+    <section class="testimonials-section" id="testimonials-section">
+        <div class="testimonials-header">
+            <h2 class="testimonials-title">Wall of Love</h2>
+            <div class="testimonials-divider"></div>
+            <p class="testimonials-label">Trusted by industry leaders</p>
+        </div>
+
+        <div class="testimonials-cards" id="testimonials-cards">
+            <!-- Cards injected by JS -->
+        </div>
+
+        <div class="testimonials-controls">
+            <button id="testimonial-prev" class="testimonial-nav" aria-label="Previous">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m15 18-6-6 6-6" />
+                </svg>
+            </button>
+            <button id="testimonial-next" class="testimonial-nav" aria-label="Next">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 18 6-6-6-6" />
+                </svg>
+            </button>
+        </div>
+    </section>
+
+    <!-- Fifth Page — CTA -->
+    <section class="cta-section" id="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-heading">Everyone is a math person</h2>
+            <p class="cta-subtitle">Join over 10 million people learning interactively.</p>
+            <a href="#" class="cta-button">Get started for free</a>
+            <div class="cta-badges">
+                <a href="#" class="cta-badge">
+                    <svg viewBox="0 0 24 24" fill="white" width="20" height="20">
+                        <path
+                            d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                    </svg>
+                    <div class="cta-badge-text">
+                        <span class="cta-badge-label">Download on the</span>
+                        <span class="cta-badge-store">App Store</span>
+                    </div>
+                </a>
+                <a href="#" class="cta-badge">
+                    <svg viewBox="0 0 24 24" fill="white" width="20" height="20">
+                        <path
+                            d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.61 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
+                    </svg>
+                    <div class="cta-badge-text">
+                        <span class="cta-badge-label">Get it on</span>
+                        <span class="cta-badge-store">Google Play</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="cta-characters">
+            <img src="ChatGPT Image Feb 19, 2026 at 05_13_23 PM.png" alt="Community Characters" />
+        </div>
+        <div class="cta-lottie">
+            <lottie-player src="lottieflow-chat-17-4-000000-easey.json" background="transparent" speed="1" loop
+                autoplay>
+            </lottie-player>
+        </div>
+        <div class="cta-lottie-right">
+            <lottie-player src="lottieflow-social-networks-15-5-000000-easey.json" background="transparent" speed="1"
+                loop autoplay>
+            </lottie-player>
+            <lottie-player src="lottieflow-social-networks-16-9-000000-easey.json" background="transparent" speed="1"
+                loop autoplay>
+            </lottie-player>
+        </div>
+    </section>
+
     <script src="main.js"></script>
+    <script type="module" src="tubes.js"></script>
+    <script src="testimonials.js"></script>
 </body>
 
 </html>

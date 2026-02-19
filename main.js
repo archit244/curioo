@@ -176,6 +176,9 @@
 
         const newH1 = document.createElement('h1');
         newH1.className = 'headline slide-enter';
+        if (idx % HEADLINES.length === 0) {
+            newH1.classList.add('small-font');
+        }
         newH1.innerHTML = HEADLINES[idx % HEADLINES.length];
         headlineContainer.appendChild(newH1);
     }
@@ -251,4 +254,94 @@
     arrangeScenes();
     startAutoTimer();
     requestAnimationFrame(animate);
+
+    // Corner Text — Cycling System + Interactive Gradient
+    const techSection = document.querySelector('.tech-section');
+    if (techSection) {
+        // --- Interactive gradient mouse tracking ---
+        let gradX = 50, gradY = 50;
+        let targetGX = 50, targetGY = 50;
+
+        techSection.addEventListener('mousemove', (e) => {
+            const rect = techSection.getBoundingClientRect();
+            targetGX = ((e.clientX - rect.left) / rect.width) * 100;
+            targetGY = ((e.clientY - rect.top) / rect.height) * 100;
+        });
+
+        techSection.addEventListener('mouseleave', () => {
+            targetGX = 50;
+            targetGY = 50;
+        });
+
+        function animateGradient() {
+            gradX += (targetGX - gradX) * 0.08;
+            gradY += (targetGY - gradY) * 0.08;
+            techSection.style.setProperty('--mx', gradX + '%');
+            techSection.style.setProperty('--my', gradY + '%');
+            requestAnimationFrame(animateGradient);
+        }
+        requestAnimationFrame(animateGradient);
+
+        // --- Corner text cycling ---
+        const slot1 = document.getElementById('ct-slot-1');
+        const slot2 = document.getElementById('ct-slot-2');
+        const slot3 = document.getElementById('ct-slot-3');
+        const slots = [slot1, slot2, slot3];
+
+        const TEXT_GROUPS = [
+            [
+                'Scroll into ideas.',
+                'Leave with clarity.',
+                'Learning here doesn\'t start with effort.'
+            ],
+            [
+                'It starts with curiosity.',
+                'You explore ideas like a feed.',
+                'When something grabs you, we slow it down — until you truly understand it.'
+            ]
+        ];
+
+        let currentGroup = 0;
+        let cycleTimer = null;
+
+        function showGroup(index) {
+            // Set text content
+            slots.forEach((slot, i) => {
+                slot.textContent = TEXT_GROUPS[index][i];
+            });
+            // Trigger enter animation
+            slots.forEach(slot => {
+                slot.classList.remove('ct-exit');
+                slot.classList.add('ct-enter');
+            });
+        }
+
+        function cycleGroups() {
+            // Fade out current
+            slots.forEach(slot => {
+                slot.classList.remove('ct-enter');
+                slot.classList.add('ct-exit');
+            });
+
+            // After exit animation completes (~400ms + stagger), show next
+            setTimeout(() => {
+                currentGroup = (currentGroup + 1) % TEXT_GROUPS.length;
+                showGroup(currentGroup);
+            }, 500);
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    techSection.classList.add('in-view');
+                    // Show first group immediately
+                    showGroup(0);
+                    // Cycle every 6 seconds
+                    cycleTimer = setInterval(cycleGroups, 6000);
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(techSection);
+    }
 })();
