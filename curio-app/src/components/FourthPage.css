@@ -1,0 +1,221 @@
+/* --- FourthPage Monochromatic Modernization Tokens --- */
+.fourth-page-wrapper {
+    --color-bg: #f9fafb;
+    --color-primary: #000000;
+    --color-muted: #4b5563;
+    --color-border: #e5e7eb;
+
+    --font-sans: 'Outfit', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+
+    --fs-hero-heading-dt: 64px;
+    --fs-hero-heading-tb: 48px;
+    --fs-hero-heading-mb: 36px;
+    --fs-body-dt: 22px;
+    --fs-body-mb: 18px;
+
+    --space-8: 80px;
+    --space-12: 120px;
+
+    background-color: var(--color-bg);
+    width: 100vw;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-12) 4%;
+    z-index: 10;
+}
+
+/* Grayscale geometric rings */
+.fp-background-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: fpFloatGlow 15s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.fp-background-glow::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    border-radius: 50%;
+}
+
+.fp-background-glow::before {
+    content: '';
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    right: 25%;
+    bottom: 25%;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    border-radius: 50%;
+}
+
+.fp-container {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Heading: large, serif, bold, drops down from top */
+.fp-heading {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero-heading-dt);
+    font-weight: 500;
+    color: var(--color-primary);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-8);
+
+    /* Initial animation state */
+    opacity: 0;
+    transform: translateY(-40px);
+    will-change: transform, opacity;
+}
+
+/* Body text: smaller, sans-serif, muted, fades up with slight blur */
+.fp-body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-dt);
+    color: var(--color-muted);
+    line-height: 1.6;
+
+    /* Initial animation state */
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(8px);
+    will-change: transform, opacity, filter;
+}
+
+.fp-body p {
+    margin-bottom: 24px;
+}
+
+.fp-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* Triggered Animations */
+.fourth-page-wrapper.animate-in .fp-heading {
+    animation: fpHeadingDrop 800ms cubic-bezier(0.16, 0.84, 0.48, 1) forwards;
+}
+
+.fourth-page-wrapper.animate-in .fp-body {
+    animation: fpBodyFadeUp 800ms cubic-bezier(0.16, 0.84, 0.48, 1) 200ms forwards;
+}
+
+/* Keyframes */
+@keyframes fpHeadingDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fpBodyFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(8px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+}
+
+@keyframes fpFloatGlow {
+    0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -45%) scale(1.05) rotate(10deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .fourth-page-wrapper {
+        min-height: 60vh;
+        padding: var(--space-8) 6%;
+    }
+
+    .fp-heading {
+        font-size: var(--fs-hero-heading-tb);
+        margin-bottom: 48px;
+    }
+
+    .fp-body {
+        font-size: var(--fs-body-mb);
+    }
+
+    .fp-background-glow {
+        width: 400px;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .fourth-page-wrapper {
+        min-height: 50vh;
+    }
+
+    .fp-heading {
+        font-size: var(--fs-hero-heading-mb);
+        margin-bottom: 40px;
+    }
+
+    .fp-body {
+        font-size: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .fp-heading,
+    .fp-body,
+    .fp-background-glow {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .fp-heading {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .fp-body {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+
+    .fp-background-glow {
+        transform: translate(-50%, -50%);
+    }
+}

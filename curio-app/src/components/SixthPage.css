@@ -1,0 +1,192 @@
+/* --- Tokens matching Page 2/3/4/5 Light Theme --- */
+.sixth-page-wrapper {
+    --color-bg: #f9fafb;
+    --color-primary: #000000;
+    --color-muted: #4b5563;
+    --color-accent: #000000;
+
+    --font-sans: 'Outfit', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+
+    --fs-hero-heading-dt: 52px;
+    --fs-hero-heading-tb: 40px;
+    --fs-hero-heading-mb: 30px;
+    --fs-body-dt: 18px;
+    --fs-body-mb: 16px;
+
+    --space-4: 16px;
+    --space-6: 32px;
+    --space-8: 64px;
+    --space-10: 80px;
+
+    background-color: var(--color-bg);
+    width: 100vw;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-8) 4% var(--space-10) 4%;
+    z-index: 10;
+}
+
+.sfp-container {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Heading Setup */
+.sfp-heading {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero-heading-dt);
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-8);
+
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: transform, opacity;
+}
+
+.sfp-line-block {
+    display: block;
+}
+
+/* Body Setup */
+.sfp-body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-dt);
+    color: var(--color-muted);
+    line-height: 1.6;
+}
+
+.sfp-stagger-text {
+    margin-bottom: var(--space-4);
+    opacity: 0;
+    transform: translateY(15px);
+    will-change: transform, opacity;
+}
+
+.sfp-final-thoughts {
+    margin-top: var(--space-8);
+}
+
+.sfp-emphasis-text {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--color-primary);
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+    will-change: transform, opacity;
+}
+
+.sfp-emphasis-text.sfp-accent {
+    color: var(--color-accent);
+}
+
+/* --- Triggered Animations --- */
+/* Motion timing: 500-700ms, cubic-bezier(0.16, 0.84, 0.48, 1) */
+
+.sixth-page-wrapper.animate-in .sfp-heading {
+    animation: sfpFadeSlideUp 700ms cubic-bezier(0.16, 0.84, 0.48, 1) forwards;
+}
+
+.sixth-page-wrapper.animate-in .sfp-stagger-text:nth-child(1) {
+    animation: sfpFadeSlideUp 600ms cubic-bezier(0.16, 0.84, 0.48, 1) 200ms forwards;
+}
+
+.sixth-page-wrapper.animate-in .sfp-stagger-text:nth-child(2) {
+    animation: sfpFadeSlideUp 600ms cubic-bezier(0.16, 0.84, 0.48, 1) 350ms forwards;
+}
+
+.sixth-page-wrapper.animate-in .sfp-stagger-text:nth-child(3) {
+    animation: sfpFadeSlideUp 600ms cubic-bezier(0.16, 0.84, 0.48, 1) 500ms forwards;
+}
+
+.sixth-page-wrapper.animate-in .sfp-emphasis-text:nth-child(1) {
+    animation: sfpScaleIn 700ms cubic-bezier(0.16, 0.84, 0.48, 1) 850ms forwards;
+}
+
+.sixth-page-wrapper.animate-in .sfp-emphasis-text:nth-child(2) {
+    animation: sfpScaleIn 700ms cubic-bezier(0.16, 0.84, 0.48, 1) 1050ms forwards;
+}
+
+/* --- Keyframes --- */
+@keyframes sfpFadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes sfpScaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .sixth-page-wrapper {
+        min-height: 60vh;
+        padding: var(--space-6) 6%;
+    }
+
+    .sfp-heading {
+        font-size: var(--fs-hero-heading-tb);
+        margin-bottom: 48px;
+    }
+
+    .sfp-emphasis-text {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sixth-page-wrapper {
+        min-height: 50vh;
+    }
+
+    .sfp-heading {
+        font-size: var(--fs-hero-heading-mb);
+        margin-bottom: 32px;
+    }
+
+    .sfp-body {
+        font-size: var(--fs-body-mb);
+    }
+
+    .sfp-emphasis-text {
+        font-size: 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .sfp-heading,
+    .sfp-stagger-text,
+    .sfp-emphasis-text {
+        animation: none !important;
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

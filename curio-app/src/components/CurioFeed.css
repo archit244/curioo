@@ -1,0 +1,657 @@
+/* ===================================================
+   CurioFeed.css — Explicit CSS Layout (No Tailwind deps)
+   =================================================== */
+
+/* Font import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,900;1,900&display=swap');
+
+/* ── Root wrapper ── */
+.cf-wrap {
+    background-color: #050505;
+    color: #ffffff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+}
+
+.cf-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+.cf-sans {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Kinetic heading ── */
+.cf-kinetic-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 15vw, 12rem);
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.cf-text-outline {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    color: transparent;
+    font-style: normal;
+}
+
+/* ── Grain overlay ── */
+.cf-wrap::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Spotlight ── */
+.cf-spotlight {
+    position: fixed;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* ── Progress Rail ── */
+.cf-progress-rail {
+    position: fixed;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 180px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+}
+
+.cf-progress-thumb {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 3px;
+    height: 24px;
+    background: #fff;
+    transition: top 0.2s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+/* ── Hero Section Layout ── */
+.cf-hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 5vw 6rem 5vw;
+    /* Generous horizontal breathing room */
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+}
+
+.cf-hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.6em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 3rem;
+    font-weight: 600;
+}
+
+.cf-hero-sub-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: end;
+    margin-top: 6rem;
+}
+
+@media (max-width: 768px) {
+    .cf-hero-sub-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cf-hero-meta {
+        display: none;
+    }
+}
+
+.cf-hero-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 300;
+    color: #9ca3af;
+    line-height: 1.4;
+}
+
+.cf-hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cf-hero-line {
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cf-hero-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    opacity: 0.3;
+    font-weight: 600;
+}
+
+/* ── Feed Section ── */
+.cf-feed-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 5rem 5vw 8rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    position: relative;
+    z-index: 10;
+}
+
+@media (max-width: 1024px) {
+    .cf-feed-section {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .cf-feed-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Idea Cards ── */
+.cf-idea-card {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 2rem;
+    padding: clamp(1.5rem, 2.5vw, 2.5rem);
+    transition: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    cursor: pointer;
+    height: 100%;
+}
+
+.cf-idea-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Cards always visible in grid — neutralize scroll focus effects */
+.cf-idea-card.focused {
+    opacity: 1;
+    filter: none;
+    transform: translateY(-6px);
+}
+
+.cf-idea-card.unfocused {
+    opacity: 1;
+    filter: none;
+    transform: none;
+}
+
+/* No horizontal offsets in grid layout */
+.cf-card-offset-right,
+.cf-card-offset-left {
+    transform: none;
+}
+
+.cf-card-offset-right.unfocused,
+.cf-card-offset-left.unfocused {
+    transform: none;
+}
+
+.cf-card-offset-right.focused,
+.cf-card-offset-left.focused {
+    transform: translateY(-6px);
+}
+
+
+
+.cf-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.cf-card-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.2;
+}
+
+.cf-card-dash {
+    width: 4rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cf-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    transition: font-style 0.7s;
+}
+
+.cf-idea-card:hover .cf-card-title {
+    font-style: italic;
+}
+
+.cf-card-body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #6b7280;
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 30rem;
+}
+
+.cf-card-tags {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+}
+
+.cf-tag-pill {
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.cf-card-cta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+}
+
+.cf-card-cta-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.cf-card-cta-circle {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, color 0.3s;
+    color: white;
+}
+
+.cf-card-cta:hover .cf-card-cta-circle {
+    background: white;
+    color: black;
+}
+
+/* ── Thesis Section (White) ── */
+.cf-thesis {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #050505;
+    color: #ffffff;
+    text-align: center;
+    padding: 8rem 5vw;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+}
+
+.cf-thesis-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 9vw, 9rem);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    margin-bottom: 5rem;
+    font-weight: 900;
+    color: #ffffff;
+}
+
+.cf-thesis-divider {
+    width: 6rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 0 auto 4rem;
+}
+
+.cf-thesis-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.5);
+    max-width: 40rem;
+    line-height: 1.7;
+}
+
+/* ── Obligation Section ── */
+.cf-obligation {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 5vw;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 10;
+}
+
+.cf-obligation-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: end;
+}
+
+@media (max-width: 900px) {
+    .cf-obligation-inner {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cf-obligation-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 9vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+}
+
+.cf-obligation-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 4rem;
+}
+
+.cf-obligation-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: #6b7280;
+    max-width: 28rem;
+    line-height: 1.5;
+}
+
+.cf-cta-btn {
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 2rem 3rem;
+    border-radius: 9999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    align-self: flex-start;
+}
+
+.cf-cta-btn:hover {
+    transform: scale(1.05);
+}
+
+.cf-cta-btn:active {
+    transform: scale(0.97);
+}
+
+/* ── Compound Section ── */
+.cf-compound {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 5vw;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: #080808;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.cf-compound-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-style: italic;
+    opacity: 0.4;
+    font-weight: 300;
+    margin-bottom: 3rem;
+}
+
+.cf-compound-word-wrap {
+    position: relative;
+    padding: 4rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cf-compound-word {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 14vw, 14rem);
+    letter-spacing: -0.05em;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.cf-compound-word-echo {
+    position: absolute;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 14vw, 14rem);
+    letter-spacing: -0.05em;
+    font-weight: 900;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.cf-compound-body {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: #9ca3af;
+    max-width: 40rem;
+    line-height: 1.7;
+    margin-top: 3rem;
+}
+
+.cf-compound-footer {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    opacity: 0.3;
+    margin-top: 6rem;
+}
+
+.cf-compound-footer-line {
+    width: 4rem;
+    height: 1px;
+    background: white;
+}
+
+.cf-compound-footer-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.cf-compound-gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.02), transparent);
+    pointer-events: none;
+}
+
+/* ── Modal ── */
+.cf-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(40px);
+    transition: opacity 0.7s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.cf-modal-backdrop.cf-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cf-modal-box {
+    background: #080808;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: clamp(2.5rem, 6vw, 6rem);
+    border-radius: 4rem;
+    max-width: 56rem;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 80px 200px rgba(0, 0, 0, 0.8);
+    transition: transform 0.7s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.cf-modal-box.cf-hidden {
+    transform: scale(0.95);
+}
+
+.cf-modal-close {
+    position: absolute;
+    top: 2.5rem;
+    right: 2.5rem;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.cf-modal-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.cf-modal-tag {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    opacity: 0.3;
+    display: block;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+}
+
+.cf-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 3rem;
+    line-height: 1.1;
+}
+
+.cf-modal-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.cf-modal-step {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.cf-modal-step-num {
+    width: 3rem;
+    height: 3rem;
+    min-width: 3rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    transition: background 0.3s, color 0.3s;
+    color: white;
+}
+
+.cf-modal-step:hover .cf-modal-step-num {
+    background: white;
+    color: black;
+}
+
+.cf-modal-step-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #9ca3af;
+    line-height: 1.6;
+}

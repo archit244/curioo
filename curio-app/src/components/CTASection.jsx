@@ -23,7 +23,7 @@ export default function CTASection() {
                 position: 'relative',
                 width: '100vw',
                 height: '100vh',
-                background: '#ffffff',
+                background: '#000000',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
@@ -38,7 +38,7 @@ export default function CTASection() {
                 style={{
                     fontSize: 'clamp(2.4rem, 5.5vw, 4.8rem)',
                     fontWeight: 800,
-                    color: '#000000',
+                    color: '#ffffff',
                     lineHeight: 1.1,
                     letterSpacing: '-0.02em',
                     textAlign: 'center',
@@ -57,7 +57,7 @@ export default function CTASection() {
                 style={{
                     fontSize: 'clamp(1rem, 2vw, 1.2rem)',
                     fontWeight: 400,
-                    color: 'rgba(0,0,0,0.55)',
+                    color: 'rgba(255,255,255,0.45)',
                     lineHeight: 1.6,
                     textAlign: 'center',
                     margin: '0 1rem 0',
@@ -82,7 +82,7 @@ export default function CTASection() {
                 }}
             >
                 <img
-                    src="/cta-characters-white.png"
+                    src="/ChatGPT Image Feb 20, 2026 at 11_44_32 PM.png"
                     alt="Diverse group of learners"
                     style={{
                         width: 'auto',
@@ -91,7 +91,7 @@ export default function CTASection() {
                         maxHeight: '72vh',
                         objectFit: 'contain',
                         display: 'block',
-                        mixBlendMode: 'multiply',
+                        mixBlendMode: 'normal',
                     }}
                 />
             </div>

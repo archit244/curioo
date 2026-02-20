@@ -1,0 +1,172 @@
+/* --- FifthPage Monochromatic Modernization Tokens --- */
+.fifth-page-wrapper {
+    --color-bg: #ffffff;
+    --color-primary: #000000;
+    --color-muted: #4b5563;
+    --color-border: #e5e7eb;
+
+    --font-sans: 'Outfit', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+
+    --fs-hero-heading-dt: 52px;
+    --fs-hero-heading-tb: 40px;
+    --fs-hero-heading-mb: 30px;
+    --fs-body-dt: 18px;
+    --fs-body-mb: 16px;
+
+    --space-8: 64px;
+    --space-10: 100px;
+
+    background-color: var(--color-bg);
+    width: 100vw;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-10) 4%;
+    z-index: 10;
+}
+
+.ffp-background-glow {
+    display: none;
+    /* Removed purple/gradient glow completely for minimal Swiss layout */
+}
+
+.ffp-container {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Heading Setup */
+.ffp-heading {
+    font-family: var(--font-serif);
+    font-size: var(--fs-hero-heading-dt);
+    font-weight: 500;
+    color: var(--color-primary);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ffp-line {
+    display: block;
+    opacity: 0;
+    transform: translateY(-30px);
+    will-change: transform, opacity;
+}
+
+/* Body Setup */
+.ffp-body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-dt);
+    color: var(--color-muted);
+    line-height: 1.6;
+
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(6px);
+    will-change: transform, opacity, filter;
+}
+
+.ffp-body p {
+    margin-bottom: 12px;
+}
+
+.ffp-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* --- Triggered Animations --- */
+.fifth-page-wrapper.animate-in .ffp-line-1 {
+    animation: ffpHeadingDrop 600ms cubic-bezier(0.16, 0.84, 0.48, 1) forwards;
+}
+
+.fifth-page-wrapper.animate-in .ffp-line-2 {
+    animation: ffpHeadingDrop 600ms cubic-bezier(0.16, 0.84, 0.48, 1) 150ms forwards;
+}
+
+.fifth-page-wrapper.animate-in .ffp-body {
+    animation: ffpBodyAscendFade 700ms cubic-bezier(0.16, 0.84, 0.48, 1) 300ms forwards;
+}
+
+/* --- Keyframes --- */
+@keyframes ffpHeadingDrop {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes ffpBodyAscendFade {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(6px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .fifth-page-wrapper {
+        min-height: 50vh;
+        padding: var(--space-8) 6%;
+    }
+
+    .ffp-heading {
+        font-size: var(--fs-hero-heading-tb);
+    }
+}
+
+@media (max-width: 480px) {
+    .fifth-page-wrapper {
+        min-height: 40vh;
+    }
+
+    .ffp-heading {
+        font-size: var(--fs-hero-heading-mb);
+        margin-bottom: 40px;
+    }
+
+    .ffp-body {
+        font-size: var(--fs-body-mb);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ffp-line,
+    .ffp-body {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .ffp-line {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .ffp-body {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+}
