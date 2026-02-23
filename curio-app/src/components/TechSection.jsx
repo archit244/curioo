@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
+import HeroModel from './HeroModel';
 
 /* global HTMLElement */
 
@@ -64,11 +65,11 @@ export default function TechSection() {
                 ))}
             </div>
 
-            {/* Right — Spline only, no overlays */}
+            {/* Right — 3D Model, no Spline */}
             <div className="spline-canvas-wrap">
-                {/* eslint-disable-next-line react/no-unknown-property */}
-                <spline-viewer url="https://prod.spline.design/Bq4wFIThO1VH25-X/scene.splinecode" />
-                <div className="spline-badge-cover" />
+                <Suspense fallback={<div className="w-full h-full flex items-center justify-center text-white/50">Loading 3D Model...</div>}>
+                    <HeroModel />
+                </Suspense>
             </div>
         </section>
     );
