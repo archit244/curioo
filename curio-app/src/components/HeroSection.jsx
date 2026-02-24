@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, Suspense } from 'react';
+import { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 
 const HEADLINES = [
     { text: 'Learning was never mean\'t to feel this good' },
@@ -37,6 +37,20 @@ export default function HeroSection() {
     const [headlineQueue, setHeadlineQueue] = useState([
         { id: 0, idx: 0, entering: true, exiting: false },
     ]);
+
+    // Deferred enter: flip newly-mounted items to entering after a paint
+    useEffect(() => {
+        const pending = headlineQueue.find(h => !h.entering && !h.exiting);
+        if (pending) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setHeadlineQueue(prev =>
+                        prev.map(h => h.id === pending.id ? { ...h, entering: true } : h)
+                    );
+                });
+            });
+        }
+    }, [headlineQueue]);
 
     function startAutoTimer() {
         const s = stateRef.current;
@@ -174,8 +188,8 @@ export default function HeroSection() {
                     s.currentIdx = (s.currentIdx + 1) % TOTAL;
                     arrangeScenes();
                     
-                    // Add new text entering from top, old text is removed
-                    setHeadlineQueue([{ id: Date.now(), idx: s.currentIdx, entering: true, exiting: false }]);
+                    // Add new text — mount hidden first, useEffect will trigger enter
+                    setHeadlineQueue([{ id: Date.now(), idx: s.currentIdx, entering: false, exiting: false }]);
                     
                     s.debounce = false;
                     s.spotlightFade = 0.003;
@@ -323,54 +337,67 @@ export default function HeroSection() {
 
     {/* Shared centered container (IMPORTANT) */}
     <div className="w-full px-[2.5vw] flex justify-center">
-  <div className="w-full max-w-[1800px]">
+  <div className="w-full max-w-[1800px]" style={{ position: 'relative' }}>
 
-    {/* Horizontal Line */}
-    <div style={{ height: '1px', background: 'rgba(255,255,255,0.6)', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
+    {/* Invisible sizer — keeps container height stable */}
+    <div style={{ visibility: 'hidden' }}>
+      <div style={{ height: '1px', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
+      <div style={{ marginLeft: '80px', marginRight: '80px', fontSize: '1.35rem', lineHeight: '1.5' }}>&nbsp;</div>
+    </div>
 
-    {/* Footer Layout */}
-    <div
-      className="flex items-center text-white/80"
-      style={{
-        fontFamily: "'Inter', sans-serif",
-        fontWeight: 300,
-        fontSize: '0.9rem',
-        letterSpacing: '0.02em',
-        marginLeft: '80px',
-        marginRight: '80px'
-      }}
-    >
+    {/* Animated Footer Content — whole block slides+fades on transition */}
+    {headlineQueue.map(h => {
+      const content = HEADLINES[h.idx % HEADLINES.length].text;
+      const isEntering = h.entering && !h.exiting;
+      return (
+        <div
+          key={h.id}
+          style={{
+            transition: 'opacity 700ms ease-out, transform 700ms ease-out',
+            opacity: isEntering ? 1 : 0,
+            transform: isEntering ? 'translateY(0)' : h.exiting ? 'translateY(22px)' : 'translateY(-22px)',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+          }}
+        >
+          {/* Horizontal Line */}
+          <div style={{ height: '1px', background: 'rgba(255,255,255,0.6)', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
 
-      {/* Left (Arrow) */}
-      <div className="flex-1 flex justify-start items-center">
-        <span className="cursor-pointer hover:text-white transition-colors duration-300 text-xl leading-none">
-          ↓
-        </span>
-      </div>
+          {/* Footer Layout */}
+          <div
+            className="flex items-center text-white/80"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 300,
+              fontSize: '1.35rem',
+              letterSpacing: '0.02em',
+              marginLeft: '80px',
+              marginRight: '80px'
+            }}
+          >
+            {/* Left (Arrow) */}
+            <div className="flex-none flex justify-start items-center">
+              <span className="cursor-pointer hover:text-white transition-colors duration-300 text-xl leading-none">
+                ↓
+              </span>
+            </div>
 
-      {/* Center Dynamic Text */}
-      <div className="flex-1 relative flex justify-center items-center h-[2em] text-center text-white">
-        {headlineQueue.map(h => {
-          const content = HEADLINES[h.idx % HEADLINES.length].text;
-          return (
-            <div
-              key={h.id}
-              className={`absolute whitespace-nowrap transition-opacity duration-1000 ${
-                h.entering ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
+            {/* Center Dynamic Text */}
+            <div className="flex-1 flex justify-center items-center text-center text-white" style={{ minWidth: 0 }}>
               {content}
             </div>
-          );
-        })}
-      </div>
 
-      {/* Right CTA */}
-      <div className="flex-1 flex justify-end whitespace-nowrap">
-        Scroll to Explore
-      </div>
+            {/* Right CTA */}
+            <div className="flex-none flex justify-end whitespace-nowrap">
+              Keep Scrolling
+            </div>
+          </div>
+        </div>
+      );
+    })}
 
-    </div>
   </div>
 </div>
 </div>

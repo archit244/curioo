@@ -1,7 +1,7 @@
 import './index.css';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import TechSection from './components/TechSection';
+import BodySections from './components/BodySections';
 
 import QuestionsSection from './components/QuestionsSection';
 import TestimonialsSection from './components/TestimonialsSection';
@@ -13,8 +13,7 @@ export default function App() {
     <>
       <Navbar />
       <HeroSection />
-      <TechSection />
-
+      <BodySections />
       <QuestionsSection />
       <TestimonialsSection />
       <CTASection />
