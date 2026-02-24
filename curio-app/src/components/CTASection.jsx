@@ -22,78 +22,94 @@ export default function CTASection() {
             style={{
                 position: 'relative',
                 width: '100vw',
-                height: '100vh',
-                background: '#000000',
+                minHeight: '70vh',
+                background: 'linear-gradient(180deg, #111111 0%, #0a0a0a 100%)',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'flex-start',
-                fontFamily: "'Outfit', sans-serif",
-                paddingTop: '5rem',
+                justifyContent: 'center',
+                fontFamily: "'Georgia', 'Times New Roman', serif",
+                padding: '6rem 2rem',
             }}
         >
-            {/* ── Heading ── */}
+            {/* Heading */}
             <h2
                 style={{
-                    fontSize: 'clamp(2.4rem, 5.5vw, 4.8rem)',
-                    fontWeight: 800,
-                    color: '#ffffff',
-                    lineHeight: 1.1,
-                    letterSpacing: '-0.02em',
+                    fontSize: 'clamp(2.8rem, 6vw, 5.5rem)',
+                    fontWeight: 700,
+                    lineHeight: 1.08,
+                    letterSpacing: '-0.03em',
                     textAlign: 'center',
-                    margin: '0 1rem 1rem',
+                    color: '#ffffff',
+                    margin: '0 1rem 1.5rem',
                     opacity: inView ? 1 : 0,
-                    transform: inView ? 'translateY(0)' : 'translateY(24px)',
-                    transition: 'opacity 0.8s 0.1s, transform 0.8s 0.1s',
-                    fontFamily: "'Georgia', 'Times New Roman', serif",
+                    transform: inView ? 'translateY(0)' : 'translateY(35px)',
+                    transition: 'opacity 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1)',
+                    transitionDelay: '0.15s',
+                    position: 'relative',
+                    zIndex: 2,
                 }}
             >
                 Everyone is a learner
             </h2>
 
-            {/* ── Subtitle ── */}
+            {/* Subtitle */}
             <p
                 style={{
-                    fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: 'clamp(1rem, 1.6vw, 1.2rem)',
                     fontWeight: 400,
                     color: 'rgba(255,255,255,0.45)',
-                    lineHeight: 1.6,
+                    lineHeight: 1.7,
                     textAlign: 'center',
-                    margin: '0 1rem 0',
+                    margin: '0 1rem 3rem',
+                    maxWidth: '42ch',
                     opacity: inView ? 1 : 0,
-                    transition: 'opacity 0.8s 0.25s',
+                    transition: 'opacity 1s ease-out',
+                    transitionDelay: '0.35s',
+                    position: 'relative',
+                    zIndex: 2,
                 }}
             >
                 Join over 10 million people learning interactively.
             </p>
 
-            {/* ── Characters — fills remaining space, flush to bottom ── */}
-            <div
-                style={{
-                    flex: 1,
-                    display: 'flex',
-                    alignItems: 'flex-end',
-                    justifyContent: 'center',
-                    width: '100%',
-                    opacity: inView ? 1 : 0,
-                    transform: inView ? 'translateY(0)' : 'translateY(50px)',
-                    transition: 'opacity 1s 0.45s, transform 1s 0.45s',
-                }}
-            >
-                <img
-                    src="/ChatGPT Image Feb 20, 2026 at 11_44_32 PM.png"
-                    alt="Diverse group of learners"
+            {/* CTA Button — Brilliant green style */}
+            <div style={{
+                opacity: inView ? 1 : 0,
+                transform: inView ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1)',
+                transitionDelay: '0.5s',
+                position: 'relative',
+                zIndex: 2,
+            }}>
+                <button
                     style={{
-                        width: 'auto',
-                        height: 'auto',
-                        maxWidth: '85%',
-                        maxHeight: '72vh',
-                        objectFit: 'contain',
-                        display: 'block',
-                        mixBlendMode: 'normal',
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '1.05rem',
+                        fontWeight: 700,
+                        padding: '18px 48px',
+                        borderRadius: 30,
+                        border: 'none',
+                        cursor: 'pointer',
+                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                        color: '#ffffff',
+                        letterSpacing: '-0.01em',
+                        boxShadow: '0 4px 20px rgba(34,197,94,0.3)',
+                        transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease',
                     }}
-                />
+                    onMouseEnter={e => {
+                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
+                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(34,197,94,0.4)';
+                    }}
+                    onMouseLeave={e => {
+                        e.currentTarget.style.transform = '';
+                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(34,197,94,0.3)';
+                    }}
+                >
+                    Get started for free
+                </button>
             </div>
         </section>
     );

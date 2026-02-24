@@ -1,18 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 
 const HEADLINES = [
-    { html: '<span>Learning was never meant</span><span>to feel this good.</span>', small: true },
-    { html: '<span>Learning that</span><span>is fun</span>', small: false },
-    { html: '<span>how does</span><span>markets work</span>', small: false },
+    { text: 'Learning was never mean\'t to feel this good' },
+    { text: 'Why do groups make worse decisions than individuals?' },
 ];
 
-const TOTAL = 3;
+const TOTAL = 2;
 const AUTO_TRANSITION_DELAY = 5000;
-const BASE_RADIUS = 100;
-const FEATHER = 22;
-const EASE = 1.0;
-const POINTS = 15;
-const EXPAND_MS = 1200;
+const BASE_RADIUS = 60;
+const FEATHER = 0;
+const EASE = 0.15;
+const POINTS = 30;
+const EXPAND_MS = 1000;
 
 export default function HeroSection() {
     const canvasRef = useRef(null);
@@ -39,6 +38,20 @@ export default function HeroSection() {
         { id: 0, idx: 0, entering: true, exiting: false },
     ]);
 
+    // Deferred enter: flip newly-mounted items to entering after a paint
+    useEffect(() => {
+        const pending = headlineQueue.find(h => !h.entering && !h.exiting);
+        if (pending) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setHeadlineQueue(prev =>
+                        prev.map(h => h.id === pending.id ? { ...h, entering: true } : h)
+                    );
+                });
+            });
+        }
+    }, [headlineQueue]);
+
     function startAutoTimer() {
         const s = stateRef.current;
         if (s.autoTimer) clearTimeout(s.autoTimer);
@@ -57,19 +70,22 @@ export default function HeroSection() {
         s.isExpanding = true;
         s.expandStart = performance.now();
         stopAutoTimer();
+        // Start exiting current text immediately as the scene transition begins
+        setHeadlineQueue(prev => prev.map(h => ({ ...h, exiting: true, entering: false })));
     }
 
-    function blobPoints(cx, cy, r, t) {
+    function blobPoints(cx, cy, r, t, scaleX = 1, scaleY = 1) {
         const pts = [];
         for (let i = 0; i < POINTS; i++) {
             const a = (i / POINTS) * Math.PI * 2;
             const n =
-                0.18 * Math.sin(a * 2 + t * 0.7) +
-                0.12 * Math.sin(a * 3 - t * 1.1) +
-                0.07 * Math.sin(a * 5 + t * 0.5) +
-                0.04 * Math.cos(a * 7 - t * 0.8);
+                0.08 * Math.sin(a * 2.5 + t * 0.5) +
+                0.04 * Math.sin(a * 4 - t * 0.8);
             const R = r * (1 + n);
-            pts.push({ x: cx + Math.cos(a) * R, y: cy + Math.sin(a) * R });
+            pts.push({ 
+                x: cx + Math.cos(a) * R * scaleX, 
+                y: cy + Math.sin(a) * R * scaleY 
+            });
         }
         return pts;
     }
@@ -148,15 +164,6 @@ export default function HeroSection() {
             });
         }
 
-        function advanceHeadline(nextIdx) {
-            setHeadlineQueue(prev => {
-                const exited = prev.map(h => ({ ...h, exiting: true, entering: false }));
-                return [...exited, { id: Date.now(), idx: nextIdx, entering: true, exiting: false }];
-            });
-            setTimeout(() => {
-                setHeadlineQueue(prev => prev.filter(h => !h.exiting));
-            }, 1000);
-        }
 
         function animate(ts) {
             const time = ts / 1000;
@@ -168,6 +175,8 @@ export default function HeroSection() {
             maskCtx.clearRect(0, 0, W, H);
 
             let currentRadius = BASE_RADIUS;
+            let scaleX = 1, scaleY = 1;
+
             if (s.isExpanding) {
                 const elapsed = ts - s.expandStart;
                 const p = Math.min(elapsed / EXPAND_MS, 1);
@@ -178,21 +187,41 @@ export default function HeroSection() {
                     s.isExpanding = false;
                     s.currentIdx = (s.currentIdx + 1) % TOTAL;
                     arrangeScenes();
-                    advanceHeadline(s.currentIdx);
+                    
+                    // Add new text — mount hidden first, useEffect will trigger enter
+                    setHeadlineQueue([{ id: Date.now(), idx: s.currentIdx, entering: false, exiting: false }]);
+                    
                     s.debounce = false;
                     s.spotlightFade = 0.003;
                     startAutoTimer();
                 }
-            } else if (s.spotlightFade < 1) {
-                s.spotlightFade += 0.03;
+            } else {
+                // Dynamic scaling based on mouse distance from center
+                const dx = s.mx - W / 2;
+                const dy = s.my - H / 2;
+                const dist = Math.hypot(dx, dy);
+                const maxDist = Math.hypot(W / 2, H / 2);
+                const distNormal = dist / maxDist;
+                
+                // Radius increases as we move to edges - final minimalist multiplier
+                currentRadius = BASE_RADIUS * (1 + distNormal * 1.2);
+                
+                // "Center decreases" - squeeze the shape towards the edge
+                // We stretch the shape along the axis of movement - final minimalist stretch
+                scaleX = 1 + Math.abs(dx / (W/2)) * 0.2;
+                scaleY = 1 + Math.abs(dy / (H/2)) * 0.2;
+
+                if (s.spotlightFade < 1) {
+                    s.spotlightFade += 0.03;
+                }
             }
 
             const finalR = currentRadius * (s.isExpanding ? 1 : s.spotlightFade);
 
             maskCtx.save();
-            maskCtx.filter = `blur(${FEATHER}px)`;
             maskCtx.fillStyle = '#fff';
-            tracePath(maskCtx, blobPoints(s.mx, s.my, finalR, time));
+            // No blur filter for sharp edges
+            tracePath(maskCtx, blobPoints(s.mx, s.my, finalR, time, scaleX, scaleY));
             maskCtx.fill();
             maskCtx.restore();
 
@@ -247,21 +276,20 @@ export default function HeroSection() {
         >
             {/* Scenes */}
             {[
-                <img key="s0" src="/scene1.png" alt="Scene 1" className="w-full h-full object-cover block" />,
-                <img key="s1" src="/scene2.png" alt="Scene 2" className="w-full h-full object-cover block" />,
-                <video key="s2" src="/minecraft-hero.mp4" muted loop playsInline preload="auto" className="w-full h-full object-cover block" />,
+                <img key="s0" src="/Gemini_Generated_Image_bcm2hybcm2hybcm2.png" alt="Hero Background" className="w-full h-full object-cover block" />,
+                <video key="v1" src="/11344965-hd_1920_1080_25fps.mp4" className="w-full h-full object-cover block" muted loop playsInline />,
             ].map((child, i) => (
                 <div
                     key={i}
                     ref={el => sceneRefs.current[i] = el}
-                    className="absolute inset-0 opacity-0 z-0"
-                    style={{ willChange: 'opacity, transform', transform: 'translate3d(0,0,0)' }}
+                    className="absolute inset-0 opacity-100 z-0"
+                    style={{ transform: 'translate3d(0,0,0)' }}
                 >
                     {child}
                 </div>
             ))}
 
-            {/* Peek canvas */}
+            {/* Peek canvas - ACTIVATED */}
             <canvas
                 ref={canvasRef}
                 className="absolute top-0 left-0 z-10 pointer-events-none"
@@ -270,30 +298,109 @@ export default function HeroSection() {
             {/* Hidden mask canvas */}
             <canvas ref={maskCanvasRef} className="hidden" />
 
+
             {/* Overlay */}
-            <div className="absolute inset-0 z-[100] pointer-events-none flex flex-col justify-end p-[4%_5%]">
-                <div className="w-full">
+            <div className="absolute inset-0 z-[100] pointer-events-none flex flex-col justify-between items-start pt-[12vh] pb-[70px]">
+                {/* Subtle dark overlay for contrast */}
+                <div className="absolute inset-0 bg-black/5 -z-10" />
+                
+                {/* Top / Center area empty, pushed content to bottom half */}
+                <div className="flex-1 w-full" />
+
+                {/* Marquee Container area (Bottom third) */}
+                <div className="w-full relative overflow-hidden flex flex-col justify-end" style={{ height: '44vh', minHeight: '150px', marginBottom: '0px', marginTop: '10px' }}>
                     <div
-                        ref={headlineContainerRef}
-                        className="flex flex-col w-full relative overflow-visible"
-                        style={{ minHeight: '40vh', justifyContent: 'space-between' }}
+                        className="absolute left-0 w-full flex items-center"
+                        style={{ top: '50%', transform: 'translateY(-50%)' }}
                     >
-                        {headlineQueue.map(h => (
-                            <h1
-                                key={h.id}
-                                className={`headline${HEADLINES[h.idx % HEADLINES.length].small ? ' small-font' : ''}${h.entering ? ' slide-enter' : ''}${h.exiting ? ' slide-exit' : ''}`}
-                                dangerouslySetInnerHTML={{ __html: HEADLINES[h.idx % HEADLINES.length].html }}
-                            />
-                        ))}
+                        <h1
+                            className="marquee-track"
+                            style={{ 
+                                fontFamily: "'Inter', sans-serif",
+                                fontWeight: 300,
+                                fontSize: 'clamp(5rem, 9.5vw, 12rem)',
+                                textTransform: 'none',
+                                lineHeight: '1.05',
+                                letterSpacing: '-0.03em',
+                                color: '#ffffff',
+                                whiteSpace: 'nowrap',
+                                display: 'inline-block'
+                            }}
+                        >
+                            {"\u2022 Why \u2022 How \u2022 What If \u2022 Imagine ".repeat(6)}
+                        </h1>
                     </div>
                 </div>
 
-                {/* Scroll hint */}
-                <div className="absolute bottom-16 left-16 w-20 h-20 opacity-80">
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                        <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                </div>
+                {/* Elementis-style Footer */}
+                <div className="w-full pb-5 pt-2 pointer-events-auto z-[101]" style={{ position: 'relative', bottom: '55px' }}>
+
+    {/* Shared centered container (IMPORTANT) */}
+    <div className="w-full px-[2.5vw] flex justify-center">
+  <div className="w-full max-w-[1800px]" style={{ position: 'relative' }}>
+
+    {/* Invisible sizer — keeps container height stable */}
+    <div style={{ visibility: 'hidden' }}>
+      <div style={{ height: '1px', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
+      <div style={{ marginLeft: '80px', marginRight: '80px', fontSize: '1.35rem', lineHeight: '1.5' }}>&nbsp;</div>
+    </div>
+
+    {/* Animated Footer Content — whole block slides+fades on transition */}
+    {headlineQueue.map(h => {
+      const content = HEADLINES[h.idx % HEADLINES.length].text;
+      const isEntering = h.entering && !h.exiting;
+      return (
+        <div
+          key={h.id}
+          style={{
+            transition: 'opacity 700ms ease-out, transform 700ms ease-out',
+            opacity: isEntering ? 1 : 0,
+            transform: isEntering ? 'translateY(0)' : h.exiting ? 'translateY(22px)' : 'translateY(-22px)',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+          }}
+        >
+          {/* Horizontal Line */}
+          <div style={{ height: '1px', background: 'rgba(255,255,255,0.6)', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
+
+          {/* Footer Layout */}
+          <div
+            className="flex items-center text-white/80"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 300,
+              fontSize: '1.35rem',
+              letterSpacing: '0.02em',
+              marginLeft: '80px',
+              marginRight: '80px'
+            }}
+          >
+            {/* Left (Arrow) */}
+            <div className="flex-none flex justify-start items-center">
+              <span className="cursor-pointer hover:text-white transition-colors duration-300 text-xl leading-none">
+                ↓
+              </span>
+            </div>
+
+            {/* Center Dynamic Text */}
+            <div className="flex-1 flex justify-center items-center text-center text-white" style={{ minWidth: 0 }}>
+              {content}
+            </div>
+
+            {/* Right CTA */}
+            <div className="flex-none flex justify-end whitespace-nowrap">
+              Keep Scrolling
+            </div>
+          </div>
+        </div>
+      );
+    })}
+
+  </div>
+</div>
+</div>
             </div>
         </main>
     );

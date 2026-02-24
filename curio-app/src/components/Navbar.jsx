@@ -1,18 +1,26 @@
 export default function Navbar() {
+    const navLinkStyle = {
+        fontFamily: "'Outfit', sans-serif",
+        fontWeight: 400,
+        fontSize: '0.92rem',
+        color: 'rgba(255,255,255,0.7)',
+        textDecoration: 'none',
+        letterSpacing: '0.02em',
+        transition: 'color 0.25s ease',
+        cursor: 'pointer',
+    };
+
     return (
         <header
             className="absolute top-0 left-0 w-full z-[1000]"
             style={{
-                padding: '1.6rem 4rem',
+                padding: 'calc(1.6rem + 15px) 4rem 1.6rem',
                 display: 'grid',
                 gridTemplateColumns: '1fr auto 1fr',
                 alignItems: 'center',
             }}
         >
-            {/* Left — empty spacer to balance right nav */}
-            <div />
-
-            {/* Center — Logo */}
+            {/* Left — Logo */}
             <div
                 style={{
                     fontFamily: "'Outfit', sans-serif",
@@ -21,14 +29,29 @@ export default function Navbar() {
                     letterSpacing: '0.25em',
                     color: '#ffffff',
                     textTransform: 'uppercase',
-                    textAlign: 'center',
+                    textAlign: 'left',
                 }}
             >
                 CURIO
             </div>
 
-            {/* Right — Nav buttons */}
-            <nav style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'flex-end' }}>
+            {/* Center — Nav links */}
+            <nav style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', justifyContent: 'center' }}>
+                {['About', 'Explore', 'How it Works'].map(label => (
+                    <a
+                        key={label}
+                        href="#"
+                        style={navLinkStyle}
+                        onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
+                    >
+                        {label}
+                    </a>
+                ))}
+            </nav>
+
+            {/* Right — Action buttons */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'flex-end' }}>
                 <a
                     href="#"
                     style={{
@@ -80,7 +103,7 @@ export default function Navbar() {
                 >
                     Get Started
                 </a>
-            </nav>
+            </div>
         </header>
     );
 }
