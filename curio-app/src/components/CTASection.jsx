@@ -5,111 +5,79 @@ export default function CTASection() {
     const [inView, setInView] = useState(false);
 
     useEffect(() => {
-        const el = sectionRef.current;
-        if (!el) return;
-        const obs = new IntersectionObserver(
-            ([entry]) => { if (entry.isIntersecting) setInView(true); },
-            { threshold: 0.1 }
-        );
-        obs.observe(el);
-        return () => obs.disconnect();
+        const el = sectionRef.current; if (!el) return;
+        const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setInView(true); }, { threshold: 0.1 });
+        obs.observe(el); return () => obs.disconnect();
     }, []);
 
     return (
-        <section
-            ref={sectionRef}
-            id="cta-section"
-            style={{
-                position: 'relative',
-                width: '100vw',
-                minHeight: '70vh',
-                background: 'linear-gradient(180deg, #111111 0%, #0a0a0a 100%)',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontFamily: "'Georgia', 'Times New Roman', serif",
-                padding: '6rem 2rem',
-            }}
-        >
+        <section ref={sectionRef} id="cta-section" style={{
+            position: 'relative', width: '100vw', height: '100vh',
+            background: 'linear-gradient(180deg, #C4DAFF 0%, #B8D0FF 40%, #A8C4FF 100%)',
+            overflow: 'hidden',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start',
+            fontFamily: "'Outfit', sans-serif", paddingTop: '5rem',
+        }}>
+            {/* Badge */}
+            <div style={{
+                display: 'inline-block', padding: '6px 16px', background: '#000', borderRadius: 999,
+                fontFamily: "'Inter', sans-serif", fontSize: '0.62rem', fontWeight: 600,
+                letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', marginBottom: 20,
+                opacity: inView ? 1 : 0, transition: 'opacity 0.8s 0.05s',
+            }}>Join the Community</div>
+
             {/* Heading */}
-            <h2
-                style={{
-                    fontSize: 'clamp(2.8rem, 6vw, 5.5rem)',
-                    fontWeight: 700,
-                    lineHeight: 1.08,
-                    letterSpacing: '-0.03em',
-                    textAlign: 'center',
-                    color: '#ffffff',
-                    margin: '0 1rem 1.5rem',
-                    opacity: inView ? 1 : 0,
-                    transform: inView ? 'translateY(0)' : 'translateY(35px)',
-                    transition: 'opacity 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1)',
-                    transitionDelay: '0.15s',
-                    position: 'relative',
-                    zIndex: 2,
-                }}
-            >
-                Everyone is a learner
-            </h2>
+            <h2 style={{
+                fontSize: 'clamp(2.4rem, 5.5vw, 4.8rem)', fontWeight: 800, color: '#000',
+                lineHeight: 1.1, letterSpacing: '-0.03em', textAlign: 'center',
+                margin: '0 1rem 1rem',
+                opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(24px)',
+                transition: 'opacity 0.8s 0.1s, transform 0.8s 0.1s',
+            }}>Everyone is a learner</h2>
 
             {/* Subtitle */}
-            <p
-                style={{
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: 'clamp(1rem, 1.6vw, 1.2rem)',
-                    fontWeight: 400,
-                    color: 'rgba(255,255,255,0.45)',
-                    lineHeight: 1.7,
-                    textAlign: 'center',
-                    margin: '0 1rem 3rem',
-                    maxWidth: '42ch',
-                    opacity: inView ? 1 : 0,
-                    transition: 'opacity 1s ease-out',
-                    transitionDelay: '0.35s',
-                    position: 'relative',
-                    zIndex: 2,
+            <p style={{
+                fontSize: 'clamp(1rem, 2vw, 1.2rem)', fontWeight: 400, color: 'rgba(0,0,0,0.5)',
+                lineHeight: 1.6, textAlign: 'center', margin: '0 1rem 2rem',
+                opacity: inView ? 1 : 0, transition: 'opacity 0.8s 0.25s',
+            }}>Join over 10 million people learning interactively.</p>
+
+            {/* CTA Button — Solid black pill */}
+            <a href="#" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '0.9rem 2.4rem',
+                background: '#000', color: '#fff',
+                fontFamily: "'Outfit', sans-serif", fontWeight: 600, fontSize: '0.95rem',
+                borderRadius: 999, textDecoration: 'none',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                opacity: inView ? 1 : 0,
+                transform: inView ? 'translateY(0)' : 'translateY(16px)',
+            }}
+                onMouseEnter={e => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.15)';
+                }}
+                onMouseLeave={e => {
+                    e.currentTarget.style.transform = '';
+                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
                 }}
             >
-                Join over 10 million people learning interactively.
-            </p>
+                Get Started
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                </svg>
+            </a>
 
-            {/* CTA Button — Brilliant green style */}
+            {/* Characters image */}
             <div style={{
-                opacity: inView ? 1 : 0,
-                transform: inView ? 'translateY(0)' : 'translateY(20px)',
-                transition: 'opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1)',
-                transitionDelay: '0.5s',
-                position: 'relative',
-                zIndex: 2,
+                flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', width: '100%',
+                opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(50px)',
+                transition: 'opacity 1s 0.45s, transform 1s 0.45s',
             }}>
-                <button
-                    style={{
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '1.05rem',
-                        fontWeight: 700,
-                        padding: '18px 48px',
-                        borderRadius: 30,
-                        border: 'none',
-                        cursor: 'pointer',
-                        background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-                        color: '#ffffff',
-                        letterSpacing: '-0.01em',
-                        boxShadow: '0 4px 20px rgba(34,197,94,0.3)',
-                        transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease',
-                    }}
-                    onMouseEnter={e => {
-                        e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)';
-                        e.currentTarget.style.boxShadow = '0 8px 32px rgba(34,197,94,0.4)';
-                    }}
-                    onMouseLeave={e => {
-                        e.currentTarget.style.transform = '';
-                        e.currentTarget.style.boxShadow = '0 4px 20px rgba(34,197,94,0.3)';
-                    }}
-                >
-                    Get started for free
-                </button>
+                <img src="/ChatGPT Image Feb 20, 2026 at 11_44_32 PM.png" alt="Diverse group of learners"
+                    style={{ width: 'auto', height: 'auto', maxWidth: '85%', maxHeight: '72vh', objectFit: 'contain', display: 'block' }} />
             </div>
         </section>
     );
