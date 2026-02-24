@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800;9..144,900&family=Inter:wght@200;300;400;700;800&family=Lora:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: #1B1B20;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+}
+
+*:focus {
+  outline: none;
+}
+
+/* Elementis-style continuous Marquee */
+@keyframes scrollMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Since we repeated the string 4 times, shifting by -50% loops it seamlessly */
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: scrollMarquee 90s linear infinite;
+  will-change: transform;
+}
+
+/* Pause the marquee on user interaction for readability if needed */
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Tech / Spline Section ── */
+.tech-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  color: #000000;
+  font-family: 'Outfit', sans-serif;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Split layout */
+.spline-copy {
+  flex: 1;
+  padding: 0 4% 0 6%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  z-index: 2;
+  align-self: center;
+  overflow: hidden;
+}
+
+.spline-copy-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  opacity: 0;
+  transform: translateY(32px);
+  padding-left: 1rem;
+  border-left: 2px solid transparent;
+  transition: border-color 0.4s;
+}
+
+.spline-copy-item.spline-anim-up {
+  border-left-color: #000000;
+}
+
+.spline-canvas-wrap {
+  flex: 0 0 52%;
+  max-width: 52%;
+  position: relative;
+  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  align-self: stretch;
+  opacity: 0;
+  animation: splineCanvasIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  will-change: transform, opacity;
+}
+
+.spline-canvas-wrap>div,
+.spline-canvas-wrap canvas,
+.spline-canvas-wrap iframe {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+/* HeroModel (R3F Canvas) adjustments */
+.spline-canvas-wrap canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+
+.spline-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  opacity: 0.5;
+  letter-spacing: 0.05em;
+}
+
+/* Copy text */
+.spline-label {
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.spline-heading {
+  font-size: clamp(2rem, 4vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+}
+
+.spline-body {
+  font-size: clamp(0.9rem, 1.25vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: #000000;
+  opacity: 0.75;
+  max-width: 36ch;
+}
+
+/* Dot indicators */
+.spline-dots {
+  display: flex;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.spline-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  padding: 0;
+}
+
+.spline-dot.active {
+  background: #1B1B20;
+  transform: scale(1.35);
+}
+
+/* Entry animation */
+@keyframes splineAnimUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splineCanvasIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.spline-anim-up {
+  animation: splineAnimUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Questions Section ── */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-33.333%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes q-row-enter {
+  from {
+    opacity: 0;
+    transform: translateY(36px);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes q-header-enter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.questions-section.in-view .questions-header {
+  animation: q-header-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s forwards;
+}
+
+.questions-marquee-wrap:hover .q-row {
+  animation-play-state: paused;
+}
+
+.questions-section.in-view .q-row[data-row="0"] {
+  animation: q-row-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both, marquee-left 26s linear 0.15s infinite;
+}
+
+.questions-section.in-view .q-row[data-row="1"] {
+  animation: q-row-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both, marquee-right 22s linear 0.3s infinite;
+}
+
+.questions-section.in-view .q-row[data-row="2"] {
+  animation: q-row-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both, marquee-left 30s linear 0.45s infinite;
+}
+
+.questions-section.in-view .q-row[data-row="3"] {
+  animation: q-row-enter 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both, marquee-right 20s linear 0.6s infinite;
+}
+
+/* ── Testimonials ── */
+@keyframes tmFloat {
+
+  0%,
+  100% {
+    transform: translate(-50%, calc(-50% - 40px)) rotate(0deg);
+  }
+
+  50% {
+    transform: translate(-50%, calc(-50% - 55px)) rotate(0.5deg);
+  }
+}
+
+.tm-center {
+  animation: tmFloat 5s ease-in-out infinite;
+}
+
+.tm-moving .tm-center {
+  animation: none;
+}
+
+/* ── Tubes fade-in ── */
+@keyframes tubesFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tubes-ai-panel.active {
+  display: block;
+  animation: tubesFadeIn 0.4s ease-out;
+}
