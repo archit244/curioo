@@ -3,9 +3,12 @@ import { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 const HEADLINES = [
     { text: 'Learning was never mean\'t to feel this good' },
     { text: 'Why do groups make worse decisions than individuals?' },
+    { text: 'How do you print intelligence?' },
+    { text: 'Is beauty a coincidence or a code?' },
+    { text: 'How deep does the curiosity go ?' },
 ];
 
-const TOTAL = 2;
+const TOTAL = 5;
 const AUTO_TRANSITION_DELAY = 5000;
 const BASE_RADIUS = 60;
 const FEATHER = 0;
@@ -82,9 +85,9 @@ export default function HeroSection() {
                 0.08 * Math.sin(a * 2.5 + t * 0.5) +
                 0.04 * Math.sin(a * 4 - t * 0.8);
             const R = r * (1 + n);
-            pts.push({ 
-                x: cx + Math.cos(a) * R * scaleX, 
-                y: cy + Math.sin(a) * R * scaleY 
+            pts.push({
+                x: cx + Math.cos(a) * R * scaleX,
+                y: cy + Math.sin(a) * R * scaleY
             });
         }
         return pts;
@@ -187,10 +190,10 @@ export default function HeroSection() {
                     s.isExpanding = false;
                     s.currentIdx = (s.currentIdx + 1) % TOTAL;
                     arrangeScenes();
-                    
+
                     // Add new text — mount hidden first, useEffect will trigger enter
                     setHeadlineQueue([{ id: Date.now(), idx: s.currentIdx, entering: false, exiting: false }]);
-                    
+
                     s.debounce = false;
                     s.spotlightFade = 0.003;
                     startAutoTimer();
@@ -202,14 +205,14 @@ export default function HeroSection() {
                 const dist = Math.hypot(dx, dy);
                 const maxDist = Math.hypot(W / 2, H / 2);
                 const distNormal = dist / maxDist;
-                
+
                 // Radius increases as we move to edges - final minimalist multiplier
                 currentRadius = BASE_RADIUS * (1 + distNormal * 1.2);
-                
+
                 // "Center decreases" - squeeze the shape towards the edge
                 // We stretch the shape along the axis of movement - final minimalist stretch
-                scaleX = 1 + Math.abs(dx / (W/2)) * 0.2;
-                scaleY = 1 + Math.abs(dy / (H/2)) * 0.2;
+                scaleX = 1 + Math.abs(dx / (W / 2)) * 0.2;
+                scaleY = 1 + Math.abs(dy / (H / 2)) * 0.2;
 
                 if (s.spotlightFade < 1) {
                     s.spotlightFade += 0.03;
@@ -278,6 +281,9 @@ export default function HeroSection() {
             {[
                 <img key="s0" src="/Gemini_Generated_Image_bcm2hybcm2hybcm2.png" alt="Hero Background" className="w-full h-full object-cover block" />,
                 <video key="v1" src="/11344965-hd_1920_1080_25fps.mp4" className="w-full h-full object-cover block" muted loop playsInline />,
+                <video key="v2" src="/chip.mp4" className="w-full h-full object-cover block" muted loop playsInline />,
+                <video key="v3" src="/rose.mp4" className="w-full h-full object-cover block" muted loop playsInline />,
+                <video key="v4" src="/lemon.mp4" className="w-full h-full object-cover block" muted loop playsInline />,
             ].map((child, i) => (
                 <div
                     key={i}
@@ -303,7 +309,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 z-[100] pointer-events-none flex flex-col justify-between items-start pt-[12vh] pb-[70px]">
                 {/* Subtle dark overlay for contrast */}
                 <div className="absolute inset-0 bg-black/5 -z-10" />
-                
+
                 {/* Top / Center area empty, pushed content to bottom half */}
                 <div className="flex-1 w-full" />
 
@@ -315,7 +321,7 @@ export default function HeroSection() {
                     >
                         <h1
                             className="marquee-track"
-                            style={{ 
+                            style={{
                                 fontFamily: "'Inter', sans-serif",
                                 fontWeight: 300,
                                 fontSize: 'clamp(5rem, 9.5vw, 12rem)',
@@ -335,72 +341,72 @@ export default function HeroSection() {
                 {/* Elementis-style Footer */}
                 <div className="w-full pb-5 pt-2 pointer-events-auto z-[101]" style={{ position: 'relative', bottom: '55px' }}>
 
-    {/* Shared centered container (IMPORTANT) */}
-    <div className="w-full px-[2.5vw] flex justify-center">
-  <div className="w-full max-w-[1800px]" style={{ position: 'relative' }}>
+                    {/* Shared centered container (IMPORTANT) */}
+                    <div className="w-full px-[2.5vw] flex justify-center">
+                        <div className="w-full max-w-[1800px]" style={{ position: 'relative' }}>
 
-    {/* Invisible sizer — keeps container height stable */}
-    <div style={{ visibility: 'hidden' }}>
-      <div style={{ height: '1px', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
-      <div style={{ marginLeft: '80px', marginRight: '80px', fontSize: '1.35rem', lineHeight: '1.5' }}>&nbsp;</div>
-    </div>
+                            {/* Invisible sizer — keeps container height stable */}
+                            <div style={{ visibility: 'hidden' }}>
+                                <div style={{ height: '1px', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
+                                <div style={{ marginLeft: '80px', marginRight: '80px', fontSize: '1.35rem', lineHeight: '1.5' }}>&nbsp;</div>
+                            </div>
 
-    {/* Animated Footer Content — whole block slides+fades on transition */}
-    {headlineQueue.map(h => {
-      const content = HEADLINES[h.idx % HEADLINES.length].text;
-      const isEntering = h.entering && !h.exiting;
-      return (
-        <div
-          key={h.id}
-          style={{
-            transition: 'opacity 700ms ease-out, transform 700ms ease-out',
-            opacity: isEntering ? 1 : 0,
-            transform: isEntering ? 'translateY(0)' : h.exiting ? 'translateY(22px)' : 'translateY(-22px)',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-          }}
-        >
-          {/* Horizontal Line */}
-          <div style={{ height: '1px', background: 'rgba(255,255,255,0.6)', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
+                            {/* Animated Footer Content — whole block slides+fades on transition */}
+                            {headlineQueue.map(h => {
+                                const content = HEADLINES[h.idx % HEADLINES.length].text;
+                                const isEntering = h.entering && !h.exiting;
+                                return (
+                                    <div
+                                        key={h.id}
+                                        style={{
+                                            transition: 'opacity 700ms ease-out, transform 700ms ease-out',
+                                            opacity: isEntering ? 1 : 0,
+                                            transform: isEntering ? 'translateY(0)' : h.exiting ? 'translateY(22px)' : 'translateY(-22px)',
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                        }}
+                                    >
+                                        {/* Horizontal Line */}
+                                        <div style={{ height: '1px', background: 'rgba(255,255,255,0.6)', marginBottom: '15px', marginLeft: '80px', marginRight: '80px' }} />
 
-          {/* Footer Layout */}
-          <div
-            className="flex items-center text-white/80"
-            style={{
-              fontFamily: "'Inter', sans-serif",
-              fontWeight: 300,
-              fontSize: '1.35rem',
-              letterSpacing: '0.02em',
-              marginLeft: '80px',
-              marginRight: '80px'
-            }}
-          >
-            {/* Left (Arrow) */}
-            <div className="flex-none flex justify-start items-center">
-              <span className="cursor-pointer hover:text-white transition-colors duration-300 text-xl leading-none">
-                ↓
-              </span>
-            </div>
+                                        {/* Footer Layout */}
+                                        <div
+                                            className="flex items-center text-white/80"
+                                            style={{
+                                                fontFamily: "'Inter', sans-serif",
+                                                fontWeight: 300,
+                                                fontSize: '1.35rem',
+                                                letterSpacing: '0.02em',
+                                                marginLeft: '80px',
+                                                marginRight: '80px'
+                                            }}
+                                        >
+                                            {/* Left (Arrow) */}
+                                            <div className="flex-none flex justify-start items-center">
+                                                <span className="cursor-pointer hover:text-white transition-colors duration-300 text-xl leading-none">
+                                                    ↓
+                                                </span>
+                                            </div>
 
-            {/* Center Dynamic Text */}
-            <div className="flex-1 flex justify-center items-center text-center text-white" style={{ minWidth: 0 }}>
-              {content}
-            </div>
+                                            {/* Center Dynamic Text */}
+                                            <div className="flex-1 flex justify-center items-center text-center text-white" style={{ minWidth: 0 }}>
+                                                {content}
+                                            </div>
 
-            {/* Right CTA */}
-            <div className="flex-none flex justify-end whitespace-nowrap">
-              Keep Scrolling
-            </div>
-          </div>
-        </div>
-      );
-    })}
+                                            {/* Right CTA */}
+                                            <div className="flex-none flex justify-end whitespace-nowrap">
+                                                Keep Scrolling
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
 
-  </div>
-</div>
-</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     );
