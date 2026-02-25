@@ -1,65 +1,136 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const TermsOfService = () => {
+    // Scroll-to-Top on entry
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    // Reveal-On-Scroll Logic
+    const contentRef = useRef(null);
+    useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Stop observing once animated
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const sections = document.querySelectorAll('.reveal-section');
+        sections.forEach((section) => observer.observe(section));
+
+        return () => {
+            sections.forEach((section) => observer.unobserve(section));
+        };
+    }, []);
+
     return (
-        <div className="bg-[#E8DCC8] w-full min-h-screen text-[#1A110D] font-['Inter']">
-            <div className="w-full px-[5vw]">
-                {/* Full Height Header */}
-                <header className="min-h-[80vh] flex flex-col justify-center border-b border-[#1A110D]/10">
-                    <h2 className="text-sm font-bold uppercase tracking-[0.3em] opacity-40 mb-6">Agreement</h2>
-                    <h1 className="text-6xl md:text-[9vw] font-extralight tracking-tighter leading-[0.9] mb-10">
-                        Terms of Service
-                    </h1>
-                    <p className="text-xl md:text-[1.8vw] opacity-60 font-light max-w-4xl italic">
-                        By using Curio, you join a community of curious minds. These terms ensure our ecosystem stays productive and respectful.
+        <div style={{ backgroundColor: '#F5F5DC', color: '#3D2B1F', minHeight: '100vh', width: '100%', padding: '5rem 0' }} className="font-['Outfit']">
+            <style>
+                {`
+                    /* Strict Spacing & Structural Rules */
+                    .tos-container {
+                        width: 100%;
+                        max-width: 720px;
+                        margin: 0 auto;
+                        padding: 0 20px; /* Some padding for mobile */
+                        box-sizing: border-box;
+                    }
+                    
+                    /* Text Styles */
+                    .tos-text {
+                        color: #3D2B1F;
+                        line-height: 2.2;
+                        font-size: 1.125rem;
+                        font-weight: 300;
+                    }
+
+                    .tos-title {
+                        color: #5C4033;
+                        font-size: 3.5rem;
+                        line-height: 1.1;
+                        font-weight: 300;
+                        margin-bottom: 2rem;
+                        text-align: center;
+                    }
+
+                    .tos-subtitle {
+                        color: #5C4033;
+                        font-size: 2rem;
+                        font-weight: 400;
+                        margin-top: 120px;
+                        margin-bottom: 1.5rem;
+                    }
+
+                    /* Custom Selection */
+                    ::selection {
+                        background-color: #3D2B1F;
+                        color: #F5F5DC;
+                    }
+                    ::-moz-selection {
+                        background-color: #3D2B1F;
+                        color: #F5F5DC;
+                    }
+
+                    /* Reveal-On-Scroll Animation */
+                    .reveal-section {
+                        opacity: 0;
+                        transform: translateY(20px);
+                        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+                    }
+
+                    .reveal-section.is-visible {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                    
+                    .tos-intro {
+                        text-align: center;
+                        font-size: 1.25rem;
+                        opacity: 0.8;
+                    }
+                `}
+            </style>
+
+            <div className="tos-container" ref={contentRef}>
+                <div className="reveal-section">
+                    <h1 className="tos-title">Terms of Service</h1>
+                    <p className="tos-text tos-intro">
+                        Please read these rules carefully. They govern your use of our platform and create a legally binding agreement.
                     </p>
-                </header>
-
-                <div className="py-[10vh] grid md:grid-cols-[1fr_2fr] gap-[10vw]">
-                    <aside className="hidden md:block">
-                        <div className="sticky top-32 space-y-8 text-sm font-bold uppercase tracking-widest opacity-30">
-                            <p>1. Acceptance</p>
-                            <p>2. Accounts</p>
-                            <p>3. IP Rights</p>
-                            <p>4. Prohibitions</p>
-                            <p>5. Liability</p>
-                        </div>
-                    </aside>
-
-                    <article className="space-y-32 mb-40">
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">01. Acceptance of Terms</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                By accessing or using Curio, you agree to be bound by these Terms of Service. If you do not agree to all of these terms, do not use the service.
-                            </p>
-                        </section>
-
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">02. User Accounts</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                You are responsible for maintaining the confidentiality of your account and password. You agree to notify us immediately of any unauthorized use of your account.
-                            </p>
-                        </section>
-
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">03. Intellectual Property</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                All content on Curio, including reels, slides, and text, is the property of Curio or its content creators and is protected by intellectual property laws. You may not reproduce or distribute this content without permission.
-                            </p>
-                        </section>
-
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">04. Platform Fair Use</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                Curio is designed for personal, non-commercial educational use. Automated scraping, data mining, or any attempt to disrupt the service is strictly prohibited.
-                            </p>
-                        </section>
-
-                        <section className="pt-20 border-t border-[#1A110D]/10 opacity-30 text-sm font-bold uppercase tracking-widest">
-                            Last Updated: February 25, 2026
-                        </section>
-                    </article>
                 </div>
+
+                <div className="reveal-section">
+                    <h2 className="tos-subtitle">01. Agreement to Terms</h2>
+                    <p className="tos-text">
+                        By accessing or using our services, you expressly agree to be bound by these Terms of Service. This agreement constitutes the entire understanding between you and the platform owner. If you do not accept these terms in their entirety, you must immediately cease all use of the platform. We reserve the right to modify these terms at any time without prior notice, and your continued use constitutes acceptance of those changes.
+                    </p>
+                </div>
+
+                <div className="reveal-section">
+                    <h2 className="tos-subtitle">02. Intellectual Property</h2>
+                    <p className="tos-text">
+                        All underlying code, designs, architectures (including systems like CollabSphere), text, graphics, and trademarks are the exclusive intellectual property of the creator. This content is protected by international copyright laws. You are granted no rights, implied or explicitly, to copy, alter, redistribute, or use these proprietary assets for any commercial or non-commercial purpose without express, written permission.
+                    </p>
+                </div>
+
+                <div className="reveal-section">
+                    <h2 className="tos-subtitle">03. User Conduct</h2>
+                    <p className="tos-text">
+                        Users are expected to operate within the bounds of standard digital etiquette. Any behavior deemed harmful, disruptive, or illegal is strictly prohibited. This includes, but is not limited to, unauthorized automated data gathering (scraping), attempting to breach server security, distributing malicious code, or harassing other users. Violation of these conduct rules will result in immediate termination of access.
+                    </p>
+                </div>
+
+                <div className="reveal-section">
+                    <h2 className="tos-subtitle">04. Limitation of Liability</h2>
+                    <p className="tos-text">
+                        The platform operates on an "as-is" and "as-available" basis. In no event shall the site owner, affiliates, or partners be held liable for any direct, indirect, incidental, or consequential damages arising from your use of the service. This includes loss of data, loss of revenue, or service interruptions. Your use of this application is fully at your own risk, and we make no warranties regarding its absolute reliability or uptime.
+                    </p>
+                </div>
+
             </div>
         </div>
     );

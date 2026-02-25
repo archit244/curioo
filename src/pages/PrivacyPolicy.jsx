@@ -1,58 +1,113 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const PrivacyPolicy = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
-        <div className="bg-[#E8DCC8] w-full min-h-screen text-[#1A110D] font-['Inter']">
-            <div className="w-full px-[5vw]">
-                {/* Full Height Header */}
-                <header className="min-h-[80vh] flex flex-col justify-center border-b border-[#1A110D]/10">
-                    <h2 className="text-sm font-bold uppercase tracking-[0.3em] opacity-40 mb-6">Legal Framework</h2>
-                    <h1 className="text-6xl md:text-[9vw] font-extralight tracking-tighter leading-[0.9] mb-10">
-                        Privacy Policy
-                    </h1>
-                    <p className="text-xl md:text-[1.8vw] opacity-60 font-light max-w-4xl italic">
-                        Your trust is our most valuable asset. This document details exactly how we handle your data—with absolute transparency.
+        <div className="privacy-wrapper">
+            <style>
+                {`
+                    .privacy-wrapper {
+                        background-color: #F5F5DC;
+                        width: 100%;
+                        min-height: 100vh;
+                        display: flex;
+                        justify-content: center;
+                        font-family: inherit;
+                    }
+                    .privacy-container {
+                        max-width: 700px;
+                        width: 100%;
+                        padding: 60px;
+                        box-sizing: border-box;
+                    }
+                    .privacy-text {
+                        color: #3D2B1F;
+                        line-height: 2.2;
+                        margin: 0;
+                    }
+                    .privacy-header {
+                        color: #5C4033;
+                        text-transform: uppercase;
+                        letter-spacing: 3px;
+                        margin-top: 0;
+                        margin-bottom: 40px;
+                    }
+                    .privacy-section {
+                        margin-bottom: 100px;
+                    }
+                    .privacy-section:last-child {
+                        margin-bottom: 0;
+                    }
+
+                    @keyframes revealUp {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                    .reveal-up {
+                        animation: revealUp 0.8s ease-out forwards;
+                        opacity: 0;
+                    }
+                    .delay-1 { animation-delay: 0.1s; }
+                    .delay-2 { animation-delay: 0.3s; }
+                    .delay-3 { animation-delay: 0.5s; }
+                    .delay-4 { animation-delay: 0.7s; }
+                    .delay-5 { animation-delay: 0.9s; }
+                    .delay-6 { animation-delay: 1.1s; }
+                `}
+            </style>
+
+            <main className="privacy-container">
+                <div className="reveal-up delay-1">
+                    <p className="privacy-text" style={{ fontSize: '0.9rem', fontStyle: 'italic', marginBottom: '40px' }}>
+                        Last Updated: February 25, 2026
                     </p>
-                </header>
-
-                <div className="py-[10vh] grid md:grid-cols-[1fr_2fr] gap-[10vw]">
-                    <aside className="hidden md:block">
-                        <div className="sticky top-32 space-y-8 text-sm font-bold uppercase tracking-widest opacity-30">
-                            <p className="hover:opacity-100 cursor-pointer transition-opacity">1. Data Collection</p>
-                            <p className="hover:opacity-100 cursor-pointer transition-opacity">2. Usage Rights</p>
-                            <p className="hover:opacity-100 cursor-pointer transition-opacity">3. Distribution</p>
-                            <p className="hover:opacity-100 cursor-pointer transition-opacity">4. Security</p>
-                        </div>
-                    </aside>
-
-                    <article className="space-y-32 mb-40">
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">01. Data Collection</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                At Curio, we collect information to help you learn better. This includes basic account info like your email, and usage data like which lessons you've completed. We don't collect data we don't need.
-                            </p>
-                        </section>
-
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">02. How We Use Data</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                We use your info to personalize your feed, track your progress, and occasionally send you updates about new features. We never sell your personal data to third parties.
-                            </p>
-                        </section>
-
-                        <section>
-                            <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-8">03. Information Sharing</h2>
-                            <p className="text-xl md:text-2xl font-light leading-relaxed opacity-70">
-                                We only share your data with trusted partners who help us run the platform (like our server providers). All partners are vetted for security and privacy compliance.
-                            </p>
-                        </section>
-
-                        <section className="pt-20 border-t border-[#1A110D]/10 opacity-30 text-sm font-bold uppercase tracking-widest">
-                            Last Updated: February 25, 2026
-                        </section>
-                    </article>
+                    <h1 className="privacy-header" style={{ fontSize: '2.5rem' }}>Privacy Policy</h1>
                 </div>
-            </div>
+
+                <section className="privacy-section reveal-up delay-2">
+                    <h2 className="privacy-header" style={{ fontSize: '1.5rem' }}>Introduction</h2>
+                    <p className="privacy-text">
+                        We are deeply committed to protecting your personal information and your right to privacy. When you visit our website and use our services, you trust us with your personal data. We take your privacy very seriously and are dedicated to safeguarding the information you share with us through transparent, secure, and responsible practices.
+                    </p>
+                </section>
+
+                <section className="privacy-section reveal-up delay-3">
+                    <h2 className="privacy-header" style={{ fontSize: '1.5rem' }}>Information We Collect</h2>
+                    <p className="privacy-text">
+                        We collect personal information that you voluntarily provide to us, including basic account details such as your name, email address, and contact preferences. Additionally, we automatically gather usage data—such as your IP address, browser characteristics, and operating system—when you interact with our platform to help us understand how to optimize our services.
+                    </p>
+                </section>
+
+                <section className="privacy-section reveal-up delay-4">
+                    <h2 className="privacy-header" style={{ fontSize: '1.5rem' }}>How We Use Your Data</h2>
+                    <p className="privacy-text">
+                        The information we collect is strictly used to improve your overall user experience. By analyzing usage patterns, we can personalize your interactions, streamline navigation, and introduce new features that directly address your needs. We also utilize your data to facilitate account management and ensure our platform maintains the highest standards of security and reliability.
+                    </p>
+                </section>
+
+                <section className="privacy-section reveal-up delay-5">
+                    <h2 className="privacy-header" style={{ fontSize: '1.5rem' }}>Cookies</h2>
+                    <p className="privacy-text">
+                        We use cookies and similar tracking technologies to access or store information. These subtle technologies allow us to remember your preferences and understand your browsing behavior. This information is critical to tailoring our content and ensuring that your journey on our platform feels intuitive, personalized, and uninterrupted.
+                    </p>
+                </section>
+
+                <section className="privacy-section reveal-up delay-6">
+                    <h2 className="privacy-header" style={{ fontSize: '1.5rem' }}>Your Rights</h2>
+                    <p className="privacy-text">
+                        Under standard privacy regulations, you possess significant rights regarding your personal data. You have the right to request access to the information we hold about you, request corrections to any inaccuracies, and ask for the deletion of your personal data under certain conditions. You also hold the right to object to our processing of your information and to withdraw your consent at any time.
+                    </p>
+                </section>
+            </main>
         </div>
     );
 };

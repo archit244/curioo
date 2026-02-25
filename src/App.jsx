@@ -14,9 +14,7 @@ import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
 import HowItWorks from './pages/HowItWorks';
 import Features from './pages/Features';
-import Pricing from './pages/Pricing';
 import AboutUs from './pages/AboutUs';
-import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 
 const Home = () => (
@@ -44,9 +42,7 @@ const AppContent = () => {
           <Route path="/cookies" element={<CookiePolicy />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/features" element={<Features />} />
-          <Route path="/pricing" element={<Pricing />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>

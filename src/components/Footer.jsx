@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 const LINKS = {
     Product: [
         { name: 'How it works', path: '/how-it-works' },
-        { name: 'Features', path: '/features' },
-        { name: 'Pricing', path: '/pricing' }
+        { name: 'Features', path: '/features' }
     ],
     Company: [
         { name: 'About us', path: '/about' },
