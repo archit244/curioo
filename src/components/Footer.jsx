@@ -1,11 +1,26 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 const LINKS = {
-    Product: ['How it works', 'Features', 'Pricing', 'Changelog', 'Roadmap'],
-    Company: ['About us', 'Blog', 'Careers', 'Press', 'Contact'],
-    Resources: ['Help Center', 'Community', 'Privacy Policy', 'Terms of Service', 'Cookie Policy'],
+    Product: [
+        { name: 'How it works', path: '/how-it-works' },
+        { name: 'Features', path: '/features' },
+        { name: 'Pricing', path: '/pricing' }
+    ],
+    Company: [
+        { name: 'About us', path: '/about' },
+        { name: 'Contact', path: '/contact' }
+    ],
+    Resources: [
+        { name: 'Privacy', path: '/privacy' },
+        { name: 'Terms', path: '/terms' },
+        { name: 'Cookies', path: '/cookies' },
+    ],
 };
 
 const SOCIALS = [
     {
+        id: 'x',
         label: 'Twitter / X',
         href: '#',
         icon: (
@@ -15,6 +30,7 @@ const SOCIALS = [
         ),
     },
     {
+        id: 'instagram',
         label: 'Instagram',
         href: '#',
         icon: (
@@ -24,15 +40,17 @@ const SOCIALS = [
         ),
     },
     {
+        id: 'linkedin',
         label: 'LinkedIn',
         href: '#',
         icon: (
             <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 11 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
             </svg>
         ),
     },
     {
+        id: 'youtube',
         label: 'YouTube',
         href: '#',
         icon: (
@@ -48,44 +66,47 @@ export default function Footer() {
         <footer
             style={{
                 background: '#1A110D',
-                color: '#ffffff',
+                color: '#E8DCC8',
                 fontFamily: "'Inter', sans-serif",
                 width: '100%',
-                borderTop: '1px solid rgba(255,255,255,0.1)',
+                borderTop: '1px solid rgba(232, 220, 200, 0.08)',
             }}
         >
             {/* Top gradient accent line */}
-            <div style={{ height: 3, background: 'linear-gradient(90deg, transparent 0%, rgba(124,92,252,0.3) 40%, rgba(124,92,252,0.1) 70%, transparent 100%)' }} />
+            <div style={{ height: 1, background: 'linear-gradient(90deg, transparent 0%, rgba(232, 220, 200, 0.2) 50%, transparent 100%)' }} />
 
             {/* Main footer grid */}
             <div
                 style={{
                     maxWidth: 1200,
                     margin: '0 auto',
-                    padding: '4rem 2rem 3rem',
+                    padding: '5rem 2rem 4rem',
                     display: 'grid',
                     gridTemplateColumns: '2fr 1fr 1fr 1fr',
-                    gap: '3rem',
+                    gap: '4rem',
                 }}
             >
                 {/* Brand column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
-                    <span
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <Link
+                        to="/"
                         style={{
-                            fontSize: '1.5rem',
-                            fontWeight: 800,
-                            letterSpacing: '0.2em',
-                            color: '#ffffff',
+                            fontSize: '1.25rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.25em',
+                            color: '#E8DCC8',
+                            textDecoration: 'none',
+                            textTransform: 'uppercase',
                         }}
                     >
                         CURIO
-                    </span>
+                    </Link>
                     <p
                         style={{
-                            fontSize: '0.92rem',
-                            lineHeight: 1.65,
-                            color: 'rgba(255,255,255,0.45)',
-                            maxWidth: '28ch',
+                            fontSize: '0.95rem',
+                            lineHeight: 1.7,
+                            color: 'rgba(232, 220, 200, 0.5)',
+                            maxWidth: '30ch',
                             margin: 0,
                         }}
                     >
@@ -93,33 +114,16 @@ export default function Footer() {
                     </p>
 
                     {/* Social icons */}
-                    <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                    <div style={{ display: 'flex', gap: '0.8rem', marginTop: '0.5rem' }}>
                         {SOCIALS.map(s => (
                             <a
                                 key={s.label}
                                 href={s.href}
                                 aria-label={s.label}
+                                className={`social-link social-${s.id}`}
                                 style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: 36,
-                                    height: 36,
-                                    borderRadius: '50%',
-                                    color: 'rgba(255,255,255,0.45)',
-                                    border: '1px solid rgba(255,255,255,0.3)',
-                                    textDecoration: 'none',
-                                    transition: 'color 0.2s, border-color 0.2s, background 0.2s',
-                                }}
-                                onMouseEnter={e => {
-                                    e.currentTarget.style.color = '#ffffff';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.6)';
-                                    e.currentTarget.style.background = 'rgba(0,0,0,0.1)';
-                                }}
-                                onMouseLeave={e => {
-                                    e.currentTarget.style.color = 'rgba(255,255,255,0.45)';
-                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)';
-                                    e.currentTarget.style.background = '';
+                                    borderColor: 'rgba(232, 220, 200, 0.15)',
+                                    color: 'rgba(232, 220, 200, 0.45)'
                                 }}
                             >
                                 {s.icon}
@@ -130,36 +134,62 @@ export default function Footer() {
 
                 {/* Link columns */}
                 {Object.entries(LINKS).map(([heading, links]) => (
-                    <div key={heading} style={{ display: 'flex', flexDirection: 'column', gap: '0.9rem' }}>
+                    <div key={heading} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                         <span
                             style={{
-                                fontSize: '0.72rem',
-                                fontWeight: 700,
-                                letterSpacing: '0.18em',
+                                fontSize: '0.8rem',
+                                fontWeight: 600,
+                                letterSpacing: '0.15em',
                                 textTransform: 'uppercase',
-                                color: '#ffffff',
-                                marginBottom: '0.3rem',
+                                color: '#E8DCC8',
+                                opacity: 0.9
                             }}
                         >
                             {heading}
                         </span>
-                        {links.map(link => (
-                            <a
-                                key={link}
-                                href="#"
-                                style={{
-                                    fontSize: '0.9rem',
-                                    color: 'rgba(255,255,255,0.45)',
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+                            {links.map(link => {
+                                const styles = {
+                                    fontSize: '0.92rem',
+                                    color: 'rgba(232, 220, 200, 0.6)',
                                     textDecoration: 'none',
-                                    transition: 'color 0.2s',
+                                    transition: 'all 0.25s ease',
                                     width: 'fit-content',
-                                }}
-                                onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; }}
-                                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; }}
-                            >
-                                {link}
-                            </a>
-                        ))}
+                                    letterSpacing: '0.01em'
+                                };
+
+                                const handleEnter = (e) => {
+                                    e.currentTarget.style.color = '#ffffff';
+                                    e.currentTarget.style.transform = 'translateX(4px)';
+                                };
+                                const handleLeave = (e) => {
+                                    e.currentTarget.style.color = 'rgba(232, 220, 200, 0.6)';
+                                    e.currentTarget.style.transform = 'translateX(0)';
+                                };
+
+                                return link.path.startsWith('/') ? (
+                                    <Link
+                                        key={link.name}
+                                        to={link.path}
+                                        style={styles}
+                                        onMouseEnter={handleEnter}
+                                        onMouseLeave={handleLeave}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ) : (
+                                    <a
+                                        key={link.name}
+                                        href={link.path}
+                                        style={styles}
+                                        onMouseEnter={handleEnter}
+                                        onMouseLeave={handleLeave}
+                                    >
+                                        {link.name}
+                                    </a>
+                                );
+                            })}
+                        </div>
                     </div>
                 ))}
             </div>
@@ -167,38 +197,16 @@ export default function Footer() {
             {/* Bottom bar */}
             <div
                 style={{
-                    borderTop: '1px solid rgba(255,255,255,0.15)',
-                    padding: '1.25rem 2rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
+                    borderTop: '1px solid rgba(232, 220, 200, 0.06)',
+                    padding: '2rem',
+                    textAlign: 'center',
                     maxWidth: 1200,
                     margin: '0 auto',
-                    flexWrap: 'wrap',
-                    gap: '0.5rem',
                 }}
             >
-                <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.45)' }}>
+                <span style={{ fontSize: '0.85rem', color: 'rgba(232, 220, 200, 0.4)', fontWeight: 400 }}>
                     © {new Date().getFullYear()} Curio. All rights reserved.
                 </span>
-                <div style={{ display: 'flex', gap: '1.5rem' }}>
-                    {['Privacy', 'Terms', 'Cookies'].map(item => (
-                        <a
-                            key={item}
-                            href="#"
-                            style={{
-                                fontSize: '0.8rem',
-                                color: 'rgba(255,255,255,0.45)',
-                                textDecoration: 'none',
-                                transition: 'color 0.2s',
-                            }}
-                            onMouseEnter={e => { e.currentTarget.style.color = '#ffffff'; }}
-                            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.45)'; }}
-                        >
-                            {item}
-                        </a>
-                    ))}
-                </div>
             </div>
         </footer>
     );
