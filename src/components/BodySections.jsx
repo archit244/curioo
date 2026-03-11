@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import QuestionsSection from './QuestionsSection';
+import ConceptFeedVisual from './ConceptFeedVisual';
+import ScrollingIdeasVisual from './ScrollingIdeasVisual';
 
 /* ─── Scroll-reveal hook ─── */
 export function useReveal(threshold = 0.15) {
@@ -159,6 +161,7 @@ export const visualCol = {
     position: 'relative',
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
 };
 
 /* ═══════════════════════════════════════════════════════════════
@@ -215,11 +218,7 @@ export default function BodySections() {
 
                     {/* Visual */}
                     <div style={visualCol}>
-                        <ImagePlaceholder
-                            show={show1}
-                            label="Concept feed / scrolling interface"
-                            hint="Add a screenshot of the Curio feed UI here"
-                        />
+                        <ScrollingIdeasVisual show={show1} />
                     </div>
                 </div>
             </section>
@@ -240,11 +239,7 @@ export default function BodySections() {
                 <div style={{ ...container, flexWrap: 'wrap' }}>
                     {/* Visual */}
                     <div style={visualCol}>
-                        <ImagePlaceholder
-                            show={show2}
-                            label="Concept tree / learning path"
-                            hint="Add illustration showing branching topics here"
-                        />
+                        <ConceptFeedVisual show={show2} />
                     </div>
 
                     {/* Text */}
