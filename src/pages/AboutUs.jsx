@@ -7,8 +7,8 @@ const AboutUs = () => {
         // Navigation Reset: Scroll to top when page loads
         window.scrollTo(0, 0);
 
-        // Intersection Observer for Scroll-Driven Reveal
-        const observer = new IntersectionObserver(
+        // Intersection Observer for Scroll-Driven Reveal so what
+         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     // Trigger when at least 15% of the element is visible
