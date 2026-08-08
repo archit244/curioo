@@ -16,7 +16,8 @@ const Contact = () => {
                         box-sizing: border-box;
                         display: flex;
                         flex-direction: column;
-                        gap: 60px;
+                        gap: 60px;//po
+                        
                     }
                     @media (min-width: 768px) {
                         .contact-wrapper {
