@@ -10,7 +10,7 @@ const Contact = () => {
             <style>
                 {`
                     .contact-wrapper {
-                        max-width: 1100px;
+                        max-width: 1100px;//ok
                         margin: 5rem auto;
                         padding: 40px;
                         box-sizing: border-box;
